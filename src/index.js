@@ -1,21 +1,20 @@
-const app = require('./app');
-
+const app = require('./app'); 
+const db = require('./config/db');  
 const port = 3000;
-app.listen(port, () => {
-  console.log(`Server running on http://localhost:${port}`);
-});
-
-const db = require('./config/db');
 
 db.sequelize.authenticate()
     .then(() => {
-        console.log('Connection established successfully.');
+        console.log('Connection has been established successfully.');
 
-        return db.sequelize.sync({ alter: true }); 
+        return db.sequelize.sync({ alter: true });
     })
     .then(() => {
-        console.log('Tables created/synced successfully.');
+        console.log('Tables synced successfully.');
+        
+        app.listen(port, () => {
+            console.log(`Server running on http://localhost:${port}`);
+        });
     })
     .catch(err => {
-        console.error('Database error:', err);
+        console.error('Unable to connect to the database:', err);
     });
