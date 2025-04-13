@@ -22,9 +22,23 @@
             </tr>
         </thead>
         <tbody>
-            <!-- Users will be populated here -->
         </tbody>
     </table>
+
+    <button id="toggleAddUserForm">➕ Add New User</button>
+
+<form id="addUserForm" style="display: none; margin-top: 20px;">
+    <input type="text" id="firstName" placeholder="First Name" required>
+    <input type="text" id="lastName" placeholder="Last Name" required>
+    <input type="text" id="username" placeholder="Username" required>
+    <input type="password" id="password" placeholder="Password" required>
+    <select id="roleId">
+        <option value="1">Admin</option>
+        <option value="2">Manager</option>
+        <option value="3">Pharmacist</option>
+    </select>
+    <button type="submit">✅ Add User</button>
+</form>
 
     <script src="scripts/adminDashboard.js"></script>
 
