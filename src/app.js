@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');  
 const authRoutes = require('./routes/auth');  
 const pageRoutes = require('./routes/pages');
+const products = require('./routes/products');
 const adminRoutes = require('./routes/admin');
 const path = require('path');
 const bodyParser = require('body-parser');
@@ -21,6 +22,7 @@ app.use(session({
 
 app.use('/',authRoutes); 
 app.use('/', pageRoutes);
+app.use('/api', products);
 app.use('/admin',adminRoutes);
 
 module.exports = app;
