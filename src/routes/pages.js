@@ -8,7 +8,7 @@ router.get('/login', (req, res) => {
 
 router.get('/products', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/products.html'));
-  
+});
 router.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/dashboard.html'));
 });
