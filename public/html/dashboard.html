@@ -9,12 +9,24 @@
 </head>
 <body>
 
-<div class="dashboard-container">
-    <h1>Welcome to Your Dashboard</h1>
-    <p>Hello, <span id="username"></span>! You are logged in as a <span id="role"></span>.</p>
-    
-    <button id="logout">Logout</button>
-</div>
+    <h1>Admin Dashboard</h1>
+
+    <table id="usersTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Username</th>
+                <th>Role</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Users will be populated here -->
+        </tbody>
+    </table>
+
+    <script src="scripts/adminDashboard.js"></script>
 
 </body>
 </html>
