@@ -12,6 +12,9 @@ fs.readdirSync(__dirname)
     db[model.name] = model;
   });
 
+db.Role.hasMany(db.User, { foreignKey: 'roleId' });
+db.User.belongsTo(db.Role, { foreignKey: 'roleId' });
+
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
