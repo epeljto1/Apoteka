@@ -4,7 +4,12 @@
 }
 
 body{
-    background-color: #f4f4f4;
+    background-color: #fcfcfc;/*#f4f4f4;*/
+    background-image: url("https://plus.unsplash.com/premium_photo-1668898899024-02f028349666?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNhbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20%;
 }
 
 .login-container {
@@ -66,7 +71,7 @@ button {
     width: 100%;
     padding: 12px 10px;
     font-size: 20px;
-    background-color: #4CAF50;
+    background-color: #347ae0;/*#4CAF50;*/
     color: white;
     border: none;
     border-radius: 4px;
@@ -84,3 +89,40 @@ button:hover {
     font-family: Arial, Helvetica, sans-serif;
     margin-top: 10px;
 }
+
+.meni{
+    width: 100%;
+    height: 55px;
+    background-color: #fcfcfc;
+    position: fixed;
+    top: 0;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+.meni ul {
+    padding: 0 7%;
+    float: right;
+}
+
+.meni ul li {
+    list-style: none;
+    display: inline-block;
+    line-height: 50px;
+}
+
+.meni ul li a{
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+    color: #347ae0;/*#909599;/*#1f64db;*/
+    
+}
+
+.meni ul li a:hover{
+    color: #1f64db;
+    background-color: #b0b8bf; 
+
+}
+  

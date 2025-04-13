@@ -64,6 +64,7 @@ body{
     padding: 20px;
     border: 2px solid #fcfcfc;
     box-shadow: 20px 15px 50px 3px #b0b8bf; 
+    border-radius: 8px;
 }
 
 .content h4{
