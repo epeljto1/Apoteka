@@ -1,0 +1,84 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+  
+body{
+    background-color: #fcfcfc;
+    padding: 0 0 0 0;
+}
+
+.background{
+    background-image: url("https://plus.unsplash.com/premium_photo-1668898899024-02f028349666?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNhbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
+    background-size: 90%;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: 20%;
+    
+}
+
+
+.meni{
+    width: 100%;
+    height: 55px;
+    background-color: #fcfcfc;
+    position: fixed;
+    top: 0;
+    font-family: Arial, Helvetica, sans-serif;
+} 
+
+.meni ul {
+    padding: 0 7%;
+}
+
+.meni ul li {
+    list-style: none;
+    display: inline-block;
+    float: right;
+    line-height: 50px;
+}
+
+.meni ul li a{
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+    color: #347ae0;/*#909599;/*#1f64db;*/
+    
+}
+
+.meni ul li a:hover{
+    color: #1f64db;
+    background-color: #b0b8bf; 
+
+}
+  
+.content{
+    position: absolute;
+    top: 40%;      /* Udaljenost od vrha stranice (60%) */
+    left: 10%;
+    height: 30%;
+    width: 40%;
+    background-color: #fcfcfc;
+    padding: 20px;
+    border: 2px solid #fcfcfc;
+    box-shadow: 20px 15px 50px 3px #b0b8bf; 
+}
+
+.content h4{
+    font-size: 35px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #1f64db;
+    margin-top: 10px;
+    margin-bottom: 20px;
+    
+}
+
+.content p{
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size: 18px;
+    text-align: justify;
+    color: #347ae0;
+
+}
