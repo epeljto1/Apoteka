@@ -13,4 +13,8 @@ router.get('/dashboard', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/dashboard.html'));
 });
 
+router.get('/index', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/index.html'));
+});
+
 module.exports = router;
