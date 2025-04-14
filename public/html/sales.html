@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prodaja lijekova</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/sales.css">
+</head>
+<body>
+
+    <h2>Prodaja lijekova</h2>
+
+    <form id="salesForm">
+        <input type="text" id="searchInput" placeholder="Pretraži lijekove...">
+        
+        <h3>Rezultati pretrage</h3>
+        <div id="searchResults"></div>
+    
+        <h3>Korpa</h3>
+        <div id="cartContainer"></div>
+    
+        <button type="submit">Potvrdi prodaju</button>
+    </form>
+
+    <div id="invoiceResult"></div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    
+    <script src="/scripts/sales.js"></script>
+</body>
+</html>
