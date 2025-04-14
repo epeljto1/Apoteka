@@ -189,6 +189,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 y = doc.lastAutoTable.finalY + 10;
                 doc.text(`Ukupan iznos: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
                 doc.save(`faktura_${invoice.id}.pdf`);
+                document.getElementById('invoiceResult').innerHTML = '';
             });
 
             // Reset
