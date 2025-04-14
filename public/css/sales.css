@@ -1,0 +1,91 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f9f9f9;
+}
+
+h2, h3, h4 {
+    color: #333;
+}
+
+#searchSection, #cartSection {
+    margin-bottom: 30px;
+}
+
+#searchResults > div, #cartContainer > div {
+    background-color: white;
+    padding: 12px 16px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+#searchResults input[type="number"] {
+    margin-left: 10px;
+    width: 60px;
+    padding: 4px;
+}
+
+#searchResults button,
+#cartContainer button,
+button[type="submit"],
+#printInvoice {
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.2s ease;
+}
+
+#searchResults button:hover,
+#cartContainer button:hover,
+button[type="submit"]:hover,
+#printInvoice:hover {
+    background-color: #0d76d3;
+}
+
+#searchInput {
+    padding: 8px;
+    width: 100%;
+    max-width: 400px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.invoice-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    margin-bottom: 10px;
+}
+
+.invoice-table th,
+.invoice-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.invoice-table th {
+    background-color: #1e90ff;
+    color: white;
+}
+
+.total-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #1e90ff;
+    margin-top: 15px;
+}
+
+.invoice-header {
+    margin-bottom: 10px;
+}

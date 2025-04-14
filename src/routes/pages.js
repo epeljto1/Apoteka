@@ -25,5 +25,12 @@ router.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/index.html'));
 });
 
+router.get('/sales', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/sales.html'));
+});
+
+router.get('/salesInvoices', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/salesInvoices.html'));
+});
 
 module.exports = router;
