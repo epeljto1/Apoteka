@@ -2,6 +2,17 @@ const path = require('path');
 const express = require('express');
 const router = express.Router();
 
+function isAuthenticatedAdmin(req, res, next) {
+    if (req.session && req.session.user && req.session.user.roleId == 1) {
+        next();
+    } else if(req.session && req.session.user && req.session.user.roleId == 3) {
+        res.redirect('/products');
+    }
+    else {
+        res.redirect('/login');
+    }
+}
+
 function isAuthenticated(req, res, next) {
     if (req.session && req.session.user) {
         next();
@@ -17,7 +28,7 @@ router.get('/login', (req, res) => {
 router.get('/products', isAuthenticated, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/products.html'));
 });
-router.get('/dashboard', isAuthenticated, (req, res) => {
+router.get('/dashboard', isAuthenticatedAdmin, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/dashboard.html'));
 });
 

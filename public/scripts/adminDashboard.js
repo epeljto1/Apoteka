@@ -192,5 +192,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     /*document.getElementById("logoutBtn").addEventListener("click", () => {
         AjaxUsers.logoutAdmin();
-    });v*/
+    });*/
 });
