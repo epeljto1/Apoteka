@@ -5,39 +5,74 @@
 
 body{
     background-color: #fcfcfc;
-    font-size: 20px;
+    width: 100%;
     
 }
 
 h1{
     width: 100%;
-    margin: 30px auto;
+    margin: 30px 0;
     text-align: center;
     font-size: 36px;
+    font-family: Arial, Helvetica, sans-serif;
 }
-
 
 #usersTable{
     margin: 50px auto;
-    width: 70%;
     height: auto;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 22px;
     border-collapse: collapse;
     text-align: center;
-    /*border-radius: 50px;*/
-    /*overflow: hidden;*/
-
+    width: 80%;
     
-    border-radius: 15px; /* Zaobljeni kutovi na celoj tabeli */
+}
+
+#usersTable td input{
+    width: 100%;
+    height: 50px;
+    font-size: 22px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+    text-align: center;
+}
+
+.updateBtn{
+    height: 40px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 2px;
+    background-color: #668bc7;
+    border-radius: 10px;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.updateBtn:hover{    
+    background-color: #b2b2f1;
+}
+
+.deleteBtn{
+    height: 40px;
+    font-size: 20px;
+    font-family: Arial, Helvetica, sans-serif;
+    text-align: center;
+    padding: 2px;
+    border-radius: 10px;
+    background-color: #eb8181;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.deleteBtn:hover{    
+    background-color: #f05151;
 }
 
 #usersTable thead{
     height: 70px;
     background-color: #347ae0;
     margin: 0 50px;
-    
-    
 }
 
 #usersTable td{
@@ -52,16 +87,123 @@ h1{
 }
 
 
+#usersTable select{
+    width: auto;
+    font-size: 16px;
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    border-radius: 5px;
+    border: 1px solid rgb(49, 49, 47);
+} 
+    
+
 #toggleAddUserForm{
     height: 50px;
     width: 200px;
     border-radius: 5px;
     font-size: 18px;
     font-family: Arial, Helvetica, sans-serif;
-    font-weight: bold;
     color: white;
     background-color: #1f64db;
-    margin: 10px 72%;
-    border-color: thistle;
+    font-weight: bold;
+    border: none;
+    position: absolute;
+    right: 15%;
+
+}
+
+#toggleAddUserForm:hover {
+    background-color: #8caadb;
+}
+
+
+
+#addUserForm{
+    display: none;
+    width: 80%;
+    height: auto;
+    padding: 20px 0;
+    margin: 5% 0 20% 10%;
+    background-color: white;/*#a9c7e2;*/
+    text-align: center;
+    border-radius: 5px;
+    border: 3px solid rgb(49, 49, 47);
+
+}
+
+
+
+#addUserForm input{
+    height: 20px;
+    padding: 10px 5px;
+    margin: 0;
+    border-radius: 5px;
+    border: 1px solid rgb(49, 49, 47);
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+
+#roleId{
+    width: 10%;
+    font-size: 16px;
+    height: auto;
+    padding: 10px 5px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid rgb(49, 49, 47);
+}
+
+#addUserForm button{
+    width: 10%;
+    font-size: 16px;
+    height: auto;
+    padding: 10px 5px;
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid rgb(49, 49, 47);
+    background-color: #e2f6d8;
+}
+
+.meni{
+    width: 100%;
+    height: 55px;
+    background-color: #3479e0;
+    position: fixed;
+    top: 0;
+    bottom: 10px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: none;
+} 
+
+.meni ul {
+    padding: 0 7%;
+}
+
+.meni ul li {
+    list-style: none;
+    display: inline-block;
+    float: right;
+    line-height: 50px;
+}
+
+.meni ul li a{
+    text-decoration: none;
+    font-weight: bold;
+    padding: 0 20px;
+    display: block;
+    font-size: 20px;
+    color: #000000da;/*#909599;/*#1f64db;*/
+    
+}
+
+.meni ul li a:hover{
+    color: #fbfdff;
+    background-color: #b0b8bf; 
 
 }
