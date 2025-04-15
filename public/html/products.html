@@ -1,57 +1,76 @@
 <!DOCTYPE html>
 <html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pregled evidencije lijekova</title>
-    <link rel="stylesheet" href="css/products.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Pregled evidencije lijekova</title>
+        <link rel="stylesheet" href="../css/products.css">
+    </head>
 
-<header>
-    <h1>Pregled evidencije lijekova</h1>
-</header>
+    <body>
 
-<div class="container">
-    <div class="search-form">
-        <h2>Pretraži lijekove</h2>
-        <form id="searchForm">
-            <div class="form-group">
-                <label for="name">Naziv lijeka:</label>
-                <input type="text" id="name" name="name">
-            </div>
-            <div class="form-group">
-                <label for="manufacturer">Proizvođač:</label>
-                <input type="text" id="manufacturer" name="manufacturer">
-            </div>
-            <div class="form-group">
-                <label for="minPrice">Minimalna cijena:</label>
-                <input type="number" step="0.01" id="minPrice" name="minPrice">
-            </div>
-            <div class="form-group">    
-                <label for="maxPrice">Maksimalna cijena:</label>
-                <input type="number" step="0.01" id="maxPrice" name="maxPrice">
-            </div>
-            <div class="form-group">
-                <label for="expirationDateFrom">Datum isteka (od):</label>
-                <input type="date" id="expirationDateFrom" name="expirationDateFrom">
-            </div>
-            <div class="form-group">
-                <label for="expirationDateTo">Datum isteka (do):</label>
-                <input type="date" id="expirationDateTo" name="expirationDateTo">
-            </div>
-            <div class="form-group">
-                <button type="submit">Pretraži</button>
-            </div>
-        </form>
-    </div>
+        <div id="meni" class="sidenav">
+            <a href="/products">Products</a>
+            <a href="/sales">Sales</a>
+            <a href="/salesInvoices">Invoices</a>
+            <a href="/login">Log out</a>
+        </div>
 
-    <div class="product-list" id="productList">
-        <!-- Pretraga rezultata se ovdje prikazuje -->
-    </div>
-</div>
 
-<script src="scripts/products.js"></script>
-<script src="scripts/pharmacistDashboard.js"></script>
-</body>
+        <header>
+            <h1>Pregled evidencije lijekova</h1>
+        </header>
+        
+        <div class="container">
+            <div class="search-form">
+                
+                <h2>Pretraži lijekove</h2>
+                <form id="searchForm">
+                    <div class="form-group">
+                        <label for="name">Naziv lijeka:</label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="manufacturer">Proizvođač:</label>
+                        <input type="text" id="manufacturer" name="manufacturer">
+                    </div>
+            
+                    <div class="form-group">
+                        <label for="minPrice">Minimalna cijena:</label>
+                        <input type="number" step="0.01" id="minPrice" name="minPrice">
+                    </div>
+            
+                    <div class="form-group">    
+                        <label for="maxPrice">Maksimalna cijena:</label>
+                        <input type="number" step="0.01" id="maxPrice" name="maxPrice">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expirationDateFrom">Datum isteka (od):</label>
+                        <input type="date" id="expirationDateFrom" name="expirationDateFrom">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="expirationDateTo">Datum isteka (do):</label>
+                        <input type="date" id="expirationDateTo" name="expirationDateTo">
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit">Pretraži</button>
+                    </div>
+                </form>
+            </div>
+
+            <div class="product-list" id="productList">
+                <!-- Pretraga rezultata se ovdje prikazuje -->
+            </div>
+
+        </div>
+
+
+        <script src="scripts/products.js"></script>
+        <script src="scripts/pharmacistDashboard.js"></script>
+
+    </body>
 </html>

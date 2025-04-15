@@ -1,33 +1,46 @@
 <!DOCTYPE html>
 <html lang="hr">
-<head>
-    <meta charset="UTF-8">
-    <title>Prodaja lijekova</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/css/sales.css">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Prodaja lijekova</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../css/sales.css">
+    </head>
 
-    <h2>Prodaja lijekova</h2>
+    <body>
+        <div id="meni" class="sidenav">
+            <a href="/products">Products</a>
+            <a href="/sales">Sales</a>
+            <a href="/salesInvoices">Invoices</a>
+            <a href="/login">Log out</a>
+        </div>
 
-    <form id="salesForm">
-        <input type="text" id="searchInput" placeholder="Pretraži lijekove...">
-        
-        <h3>Rezultati pretrage</h3>
-        <div id="searchResults"></div>
+        <h2>Prodaja lijekova</h2>
+
+
+        <form id="salesForm">
+
+            <input type="text" id="searchInput" placeholder="Pretraži lijekove...">
+            <h3>Rezultati pretrage</h3>
+            <div id="searchResults">
+
+            </div>
     
-        <h3>Korpa</h3>
-        <div id="cartContainer"></div>
+            <h3>Korpa</h3>
+            <div id="cartContainer"></div>
+            <button type="submit">Potvrdi prodaju</button>
+
+        </form>
+
+
+        <div id="invoiceResult">
+
+        </div>
+
     
-        <button type="submit">Potvrdi prodaju</button>
-    </form>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>    
+        <script src="/scripts/sales.js"></script>
 
-    <div id="invoiceResult"></div>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
-    
-    <script src="/scripts/sales.js"></script>
-</body>
+    </body>
 </html>

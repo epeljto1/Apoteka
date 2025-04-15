@@ -6,6 +6,7 @@ body {
 
 h2, h3, h4 {
     color: #333;
+    margin-left: 15%;
 }
 
 #searchSection, #cartSection {
@@ -88,4 +89,55 @@ button[type="submit"]:hover,
 
 .invoice-header {
     margin-bottom: 10px;
+}
+
+
+
+.sidenav {
+    height: 100%;
+    width: 15%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    background-color: #111111fb;
+    padding-top: 60px;
+    overflow-x: hidden;
+
+}
+
+
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.sidenav a:hover {
+    color: #f1f1f1;
+}
+  
+#salesForm{
+    margin-left: 15%;
+
+}
+
+
+#invoiceResult{
+    margin-left: 15%;
+}
+
+.total-amount{
+    margin-left: 15%;
+}
+
+.invoice-header{
+    margin-left: 15%;
+}
+
+.invoice-table{
+    margin-left: 15%;
+    width: 50%;
 }
