@@ -1,24 +1,21 @@
-*{
+* {
     margin: 0;
     padding: 0;
 }
   
-body{
+body {
     background-color: #fcfcfc;
-    padding: 0 0 0 0;
 }
 
-.background{
+.background {
     background-image: url("https://plus.unsplash.com/premium_photo-1668898899024-02f028349666?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNhbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
     background-size: 87%;
     background-position: center;
     background-repeat: no-repeat;
     margin-top: 20%;
-    
 }
 
-
-.meni{
+.meni {
     width: 100%;
     height: 55px;
     background-color: #fcfcfc;
@@ -38,50 +35,49 @@ body{
     line-height: 50px;
 }
 
-.meni ul li a{
+.meni ul li a {
     text-decoration: none;
     font-weight: bold;
     padding: 0 20px;
     display: block;
     font-size: 20px;
-    color: #347ae0;/*#909599;/*#1f64db;*/
-    
+    color: #347ae0;
 }
 
-.meni ul li a:hover{
+.meni ul li a:hover {
     color: #1f64db;
     background-color: #b0b8bf; 
-
 }
-  
-.content{
+
+.content {
     position: absolute;
-    top: 40%;      /* Udaljenost od vrha stranice (60%) */
+    top: 40%;
     left: 10%;
-    height: 30%;
-    width: 40%;
+    width: 55%;
+    min-height: 300px;
     background-color: #fcfcfc;
-    padding: 20px;
+    padding: 30px;
     border: 2px solid #fcfcfc;
     box-shadow: 20px 15px 50px 3px #b0b8bf; 
     border-radius: 8px;
+    overflow: auto;
 }
 
-.content h4{
-    font-size: 35px;
+.content h4 {
+    font-size: 28px;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: #1f64db;
     margin-top: 10px;
     margin-bottom: 20px;
-    
+    text-transform: uppercase;
 }
 
-.content p{
+.content p {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     font-size: 18px;
     text-align: justify;
     color: #347ae0;
-
+    line-height: 1.6;
 }
 
 .logo {

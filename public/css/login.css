@@ -6,7 +6,7 @@
 body{
     background-color: #fcfcfc;/*#f4f4f4;*/
     background-image: url("https://plus.unsplash.com/premium_photo-1668898899024-02f028349666?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWVkaWNhbCUyMGJhY2tncm91bmR8ZW58MHx8MHx8fDA%3D");
-    background-size: 90%;
+    background-size: 87%;
     background-position: center;
     background-repeat: no-repeat;
     margin-top: 20%;
@@ -125,4 +125,12 @@ button:hover {
     background-color: #b0b8bf; 
 
 }
-  
+
+.logo {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 80px;
+    height: auto;
+    z-index: 999;
+}
