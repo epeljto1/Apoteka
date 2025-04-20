@@ -13,6 +13,15 @@ function isAuthenticatedAdmin(req, res, next) {
     }
 }
 
+function isAuthenticatedManager(req, res, next) {
+    if (req.session && req.session.user && req.session.user.roleId == 2) {
+        next(); }
+    else {
+        res.redirect('/login');
+    }
+}
+
+
 function isAuthenticated(req, res, next) {
     if (req.session && req.session.user) {
         next();
@@ -43,5 +52,14 @@ router.get('/sales', (req, res) => {
 router.get('/salesInvoices', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/salesInvoices.html'));
 });
+
+router.get('/contact', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/contact.html'));
+});
+
+router.get('/managerdash', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/managerdash.html'));
+});
+
 
 module.exports = router;

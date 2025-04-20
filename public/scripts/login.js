@@ -39,6 +39,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 console.log(data);
                 if(data.user.roleId == 1)
                 window.location.href = "/dashboard"; 
+                else if(data.user.roleId == 2)
+                    window.location.href = "/managerdash";
                 else if(data.user.roleId == 3)
                 window.location.href = "/products"; 
             }
