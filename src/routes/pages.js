@@ -57,6 +57,10 @@ router.get('/contact', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/contact.html'));
 });
 
+router.get('/about', (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/about.html'));
+});
+
 router.get('/managerdash', isAuthenticatedManager, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/managerdash.html'));
 });
