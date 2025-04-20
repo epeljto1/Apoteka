@@ -1,0 +1,71 @@
+/*.contact-box {
+    margin: 80px auto;
+    padding: 30px;
+    width: 50%;
+    left: 10%;
+    background-color: #fcfcfc;
+    border-radius: 16px;
+    box-shadow: 10px 10px 30px rgba(176, 184, 191, 0.5);
+    font-family: 'Lucida Sans', sans-serif;
+}
+*/
+.contact-box {
+    position: absolute;
+    top: 25%; /* možeš prilagoditi visinu */
+    left: 10%;
+    width: 40%;
+    background-color: #fcfcfc;
+    padding: 30px;
+    border: 2px solid #fcfcfc;
+    box-shadow: 20px 15px 50px 3px #b0b8bf;
+    border-radius: 8px;
+    font-family: 'Lucida Sans', sans-serif;
+}
+.contact-box h4 {
+    font-size: 28px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #1f64db;
+    margin-bottom: 30px;
+}
+
+.contact-wrapper {
+    display: flex;
+    gap: 30px;
+}
+
+.icons-column {
+    background-color: #f1f6fa;
+    border-radius: 20px;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 60px;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.icons-column img {
+    width: 34px;
+    height: 34px;
+    filter: invert(29%) sepia(62%) saturate(1695%) hue-rotate(195deg) brightness(91%) contrast(92%);
+}
+
+.info-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.info-column h5 {
+    font-size: 20px;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: #1f64db;
+    margin-bottom: 10px;
+}
+
+.info-column p {
+    font-size: 16px;
+    color: #1f64db;
+    line-height: 1.5;
+}
