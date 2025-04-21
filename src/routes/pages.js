@@ -65,5 +65,14 @@ router.get('/managerdash', isAuthenticatedManager, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/managerdash.html'));
 });
 
+router.get('/deliveries', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/deliveries.html'));
+});
+
+router.get('/deliverydetails', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/deliverydetails.html'));
+});
+
+
 
 module.exports = router;
