@@ -29,11 +29,13 @@ module.exports = function(sequelize, DataTypes){
         },
         supplierId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'Suppliers',
                 key: 'id'
-            }
+            },
+            onDelete: 'SET NULL', // dodatno za sigurnost kad se radi sync sa alter
+            onUpdate: 'CASCADE'
         }
     });
     return Contract;

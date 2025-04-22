@@ -7,6 +7,7 @@ const adminRoutes = require('./routes/admin');
 const sales = require('./routes/sales');
 const salesInvoiceRoutes = require('./routes/salesInvoices');
 const deliveriesRoutes = require('./routes/deliveries');
+const suppliersRoutes = require('./routes/suppliers');
 const path = require('path');
 const bodyParser = require('body-parser');
 
@@ -29,6 +30,7 @@ app.use('/api', products);
 app.use('/admin',adminRoutes);
 app.use('/api', sales);
 app.use('/api', salesInvoiceRoutes);
-app.use('/',deliveriesRoutes); 
+app.use('/',deliveriesRoutes);
+app.use('/api', suppliersRoutes);
 
 module.exports = app;
