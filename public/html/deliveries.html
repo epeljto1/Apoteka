@@ -1,30 +1,34 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <title>Deliveries</title>
-    <link rel="stylesheet" href="../css/sidebar.css">
-    <link rel="stylesheet" href="../css/deliveries.css">
-</head>
-<body>
-    <h2 style="text-align: center;">Deliveries</h2>
+    <head>
+        <title>Deliveries</title>
+        <link rel="stylesheet" href="../css/sidebar.css">
+        <link rel="stylesheet" href="../css/deliveries.css">
+    </head>
 
-    <div id="meni" class="sidenav">
-        <a href="/deliveries">Deliveries</a>
-        <a href="/suppliers">Suppliers</a>
-        <a href="/login">Log out</a>
-    </div>
+    <body>
+        <h2>Isporuke</h2>
+        
+        <div id="meni" class="sidenav">
+            <a href="/deliveries">Deliveries</a>
+            <a href="/suppliers">Suppliers</a>
+            <a href="/login">Log out</a>
+        </div>
+        
+        <table id="deliveryTable">
+            <thead>
+                <tr>
+                    <th>Broj isporuke</th>
+                    <th>Datum isporuke</th>
+                    <th>Detalji</th>
+                </tr>
+            </thead>
+            <tbody>
 
-    <table id="deliveryTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Delivery Date</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
+            </tbody>
+        </table>
 
-    <script src="/scripts/deliveries.js"></script>
-</body>
+        <script src="/scripts/deliveries.js"></script>
+
+    </body>
 </html>

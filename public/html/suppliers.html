@@ -1,55 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Evidencija dobavljača</title>
-  <link rel="stylesheet" href="../css/suppliers.css">
-  <link rel="stylesheet" href="../css/sidebar.css">
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8">
+    <title>Evidencija dobavljača</title>
+    <link rel="stylesheet" href="../css/suppliers.css">
+    <link rel="stylesheet" href="../css/sidebar.css">
+  </head>
 
-  <h1 style="text-align: center;">Evidencija Dobavljača</h1>
+  <body>
+    <h1 style="text-align: center;">Evidencija Dobavljača</h1>
 
-  <div id="meni" class="sidenav">
-    <a href="/deliveries">Deliveries</a>
-    <a href="/suppliers">Suppliers</a>
-    <a href="/login">Log out</a>
-  </div>
-
-  <div style="margin-left:220px; padding:20px;">
-    <input type="text" id="searchInput" placeholder="Pretraži po imenu dobavljača...">
-    <button id="addSupplierBtn">Dodaj novog dobavljača</button>
-    <table id="suppliersTable">
-      <thead>
-        <tr>
-          <th>Ime</th>
-          <th>Kontakt Broj</th>
-          <th>Detalji</th>
-          <th>Brisanje</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Ovdje idu dobavljaci -->
-      </tbody>
-    </table>
-  </div>
-
-  <div id="addSupplierModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span id="closeModal" style="float:right; cursor:pointer;">&times;</span>
-      <h2>Dodaj novog dobavljača</h2>
-      <form id="addSupplierForm">
-        <input type="text" id="name" placeholder="Ime" required><br><br>
-        <input type="text" id="contactNumber" placeholder="Kontakt broj" required><br><br>
-        <input type="email" id="email" placeholder="Email" required><br><br>
-        <input type="text" id="address" placeholder="Adresa" required><br><br>
-        <input type="text" id="website" placeholder="Website" required><br><br>
-        <button type="submit">Sačuvaj</button>
-      </form>
+    <div id="meni" class="sidenav">
+      <a href="/deliveries">Deliveries</a>
+      <a href="/suppliers">Suppliers</a>
+      <a href="/login">Log out</a>
     </div>
-  </div>
 
-  <script src="../scripts/suppliers.js"></script>
+    <div style="margin-left:220px; padding:20px;">
+      <input type="text" id="searchInput" placeholder="Pretraži po imenu dobavljača...">
+      <button id="addSupplierBtn">Dodaj novog dobavljača</button>
+      <table id="suppliersTable">
+        <thead>
+          <tr>
+            <th>Ime</th>
+            <th>Kontakt broj</th>
+            <th>Detalji</th>
+            <th>Brisanje</th>
+          </tr>
+        </thead>
+      
+        <tbody>
+          <!-- Ovdje idu dobavljaci -->
+        </tbody>
+      </table>
+    </div>
 
-</body>
+    <div id="addSupplierModal" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="closeModal" style="float:right; cursor:pointer;">&times;</span>
+        <h2>Dodaj novog dobavljača</h2>
+
+        <form id="addSupplierForm">
+          <input type="text" id="name" placeholder="Ime" required><br><br>
+          <input type="text" id="contactNumber" placeholder="Kontakt broj" required><br><br>
+          <input type="email" id="email" placeholder="Email" required><br><br>
+          <input type="text" id="address" placeholder="Adresa" required><br><br>
+          <input type="text" id="website" placeholder="Website" required><br><br>
+          <button type="submit">Sačuvaj</button>
+        </form>
+      </div>  
+    </div>
+  
+    <script src="../scripts/suppliers.js"></script>
+
+  </body>
 </html>
