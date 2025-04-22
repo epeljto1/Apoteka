@@ -60,3 +60,58 @@ button:hover {
 .details-link:hover {
     text-decoration: underline;
 }
+
+.modal {
+    display: none; /* već imaš */
+    position: fixed;
+    z-index: 1000; /* da bude iznad svega */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto; /* ako sadržaj bude dug */
+    background-color: rgba(0, 0, 0, 0.5); /* tamna pozadina sa providnošću */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto; /* centriranje horizontalno i malo odozgo */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 400px; /* širina modala */
+    border-radius: 8px; /* zaobljeni rubovi */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); /* malo sjene */
+    position: relative;
+}
+
+#addSupplierModal button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#addSupplierModal button:hover {
+    background-color: #45a049;
+}
+
+#addSupplierBtn{
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    margin-top: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+#addSupplierBtn button:hover {
+    background-color: #45a049;
+}
