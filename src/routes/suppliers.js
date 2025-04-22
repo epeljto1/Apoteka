@@ -63,4 +63,27 @@ router.get('/suppliers/:id', async (req, res) => {
     }
 });
 
+router.post('/suppliers', async (req, res) => {
+    const { name, contactNumber, email, address, website } = req.body;
+
+    if (!name || !contactNumber || !email || !address || !website) {
+        return res.status(400).json({ message: 'Sva polja su obavezna.' });
+    }
+
+    try {
+        const newSupplier = await Supplier.create({
+            name,
+            contactNumber,
+            email,
+            address,
+            website
+        });
+
+        res.status(201).json({ supplier: newSupplier });
+    } catch (error) {
+        console.error('Greška pri dodavanju dobavljača:', error);
+        res.status(500).json({ message: 'Greška na serveru.' });
+    }
+});
+
 module.exports = router;

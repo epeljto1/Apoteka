@@ -81,4 +81,56 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Pozovi učitavanje dobavljača na početku
     fetchSuppliers();
+    const addSupplierBtn = document.getElementById('addSupplierBtn');
+    const addSupplierModal = document.getElementById('addSupplierModal');
+    const closeModal = document.getElementById('closeModal');
+    const addSupplierForm = document.getElementById('addSupplierForm');
+
+    // Otvaranje modala
+    addSupplierBtn.addEventListener('click', () => {
+        addSupplierModal.style.display = 'block';
+    });
+
+    // Zatvaranje modala
+    closeModal.addEventListener('click', () => {
+        addSupplierModal.style.display = 'none';
+    });
+
+    // Slanje forme
+    addSupplierForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const newSupplier = {
+            name: document.getElementById('name').value,
+            contactNumber: document.getElementById('contactNumber').value,
+            email: document.getElementById('email').value,
+            address: document.getElementById('address').value,
+            website: document.getElementById('website').value
+        };
+
+        try {
+            const response = await fetch('/api/suppliers', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newSupplier)
+            });
+
+            if (response.ok) {
+                const result = await response.json();
+                suppliers.push(result.supplier);
+                displaySuppliers(suppliers);
+                addSupplierModal.style.display = 'none';
+                alert('Dobavljač uspješno dodat.');
+                addSupplierForm.reset();
+            } else {
+                const errorData = await response.json();
+                alert(errorData.message || 'Greška pri dodavanju.');
+            }
+        } catch (error) {
+            console.error('Greška pri dodavanju dobavljača:', error);
+            alert('Greška pri dodavanju.');
+        }
+    });
 });
