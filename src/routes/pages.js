@@ -30,11 +30,19 @@ function isAuthenticated(req, res, next) {
     }
 }
 
+function isAuthenticatedPharmacist(req, res, next) {
+    if (req.session && req.session.user && req.session.user.roleId == 3) {
+        next();
+    } else {
+        res.redirect('/login');
+    }
+}
+
 router.get('/login', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/login.html'));
 });
 
-router.get('/products', isAuthenticated, (req, res) => {
+router.get('/products', isAuthenticatedPharmacist, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/products.html'));
 });
 router.get('/dashboard', isAuthenticatedAdmin, (req, res) => {
@@ -45,11 +53,11 @@ router.get('/index', (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/index.html'));
 });
 
-router.get('/sales', (req, res) => {
+router.get('/sales', isAuthenticatedPharmacist, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/sales.html'));
 });
 
-router.get('/salesInvoices', (req, res) => {
+router.get('/salesInvoices', isAuthenticatedPharmacist, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/salesInvoices.html'));
 });
 
@@ -73,6 +81,12 @@ router.get('/deliverydetails', isAuthenticatedManager, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/deliverydetails.html'));
 });
 
+router.get('/suppliers', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/suppliers.html'));
+});
 
+router.get('/supplierdetails', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/supplierdetails.html'));
+});
 
 module.exports = router;
