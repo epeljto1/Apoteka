@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Evidencija dobavljača</title>
+    <link rel="stylesheet" href="../css/reports.css"> 
+    <link rel="stylesheet" href="../css/sidebar.css">
+  </head>
+
+  <body>
+    <h1 style="text-align: center;">Generisanje izvještaja</h1>
+
+    <div id="meni" class="sidenav">
+      <a href="/deliveries">Deliveries</a>
+      <a href="/suppliers">Suppliers</a>
+      <a href="/reports">Reports</a>
+      <a href="/login">Log out</a>
+    </div>
+
+    <div style="margin-left:220px; padding:20px;">
+        <label for="reportType">Izaberi tip izvještaja:</label>
+        <select id="reportType">
+            <option value="">-- Odaberi --</option>
+            <option value="promet">Najprodavaniji lijek</option>
+        </select>
+        <br><br>
+        <label for="startDate">Od datuma:</label>
+        <input type="date" id="startDate">
+
+        <label for="endDate">Do datuma:</label>
+        <input type="date" id="endDate">
+        <button id="generateReportBtn">Prikaži izvještaj</button>
+        <button id="downloadReportBtn" onclick="downloadPDF()" >Preuzmi izvještaj</button>
+        <br><br>
+      <table id="reportsTable">
+        <thead>
+          <tr>
+            <th>Naziv</th>
+            <th>Proizvođač</th>
+            <th>Cijena</th>
+            <th>Količina</th>
+            <th>Zarada</th>
+          </tr>
+        </thead>
+      
+        <tbody>
+        </tbody>
+      </table>
+    </div>
+
+    <script src="../scripts/reports.js"></script>
+
+  </body>
+</html>

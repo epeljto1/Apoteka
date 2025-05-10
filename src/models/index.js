@@ -42,4 +42,7 @@ db.Invoice.belongsTo(db.Delivery, { foreignKey: 'id' });
 db.Invoice.hasMany(db.InvoiceItems, { foreignKey: 'invoiceId' });
 db.InvoiceItems.belongsTo(db.Invoice, { foreignKey: 'invoiceId' });
 
+db.Report.hasMany(db.SalesInvoice, { foreignKey: 'reportId' });
+db.SalesInvoice.belongsTo(db.Report, { foreignKey: 'reportId' });
+
 module.exports = db;

@@ -8,6 +8,7 @@ const sales = require('./routes/sales');
 const salesInvoiceRoutes = require('./routes/salesInvoices');
 const deliveriesRoutes = require('./routes/deliveries');
 const suppliersRoutes = require('./routes/suppliers');
+const reportsRoutes = require('./routes/reports');
 const path = require('path');
 const bodyParser = require('body-parser');
 
@@ -32,5 +33,6 @@ app.use('/api', sales);
 app.use('/api', salesInvoiceRoutes);
 app.use('/',deliveriesRoutes);
 app.use('/api', suppliersRoutes);
+app.use('/api', reportsRoutes);
 
 module.exports = app;
