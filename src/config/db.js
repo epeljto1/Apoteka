@@ -45,8 +45,8 @@ db.Modification.belongsTo(db.User, { foreignKey: 'userId' });
 db.Contract.hasMany(db.Delivery, { foreignKey: 'contractId' });
 db.Delivery.belongsTo(db.Contract, { foreignKey: 'contractId' });
 
-db.Delivery.hasOne(db.Invoice, { foreignKey: 'id' });
-db.Invoice.belongsTo(db.Delivery, { foreignKey: 'id' });
+db.Delivery.hasOne(db.Invoice, { foreignKey: 'deliveryId' });
+db.Invoice.belongsTo(db.Delivery, { foreignKey: 'deliveryId' });
 
 db.Invoice.hasMany(db.InvoiceItems, { foreignKey: 'invoiceId' });
 db.InvoiceItems.belongsTo(db.Invoice, { foreignKey: 'invoiceId' });

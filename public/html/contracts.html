@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contracts</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table, th, td {
+            border: 1px solid #ccc;
+        }
+
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f0f0f0;
+        }
+
+        tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .error {
+            color: red;
+            text-align: center;
+        }
+
+        .download-pdf-btn {
+            padding: 5px 10px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            border-radius: 4px;
+        }
+
+        .download-pdf-btn:hover {
+            background-color: #0b7dda;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Contracts</h1>
+    <div style="text-align:center; margin-top: 20px;">
+        <input type="text" id="searchInput" placeholder="Search by supplier, subject, status..." style="padding: 8px; width: 300px;">
+        <button id="createContractBtn" style="padding: 8px 16px; margin-left: 10px;">+ New Contract</button>
+
+    </div>
+
+    <table id="contractsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Subject</th>
+                <th>Conclusion Date</th>
+                <th>Expiration Date</th>
+                <th>Status</th>
+                <th>Supplier</th>
+                <th>Action</th> <!-- Column for download PDF button -->
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script src="/scripts/contracts.js"></script>
+
+</body>
+</html>

@@ -89,4 +89,12 @@ router.get('/supplierdetails', isAuthenticatedManager, (req, res) => {
     res.sendFile(path.join(__dirname, '../../public/html/supplierdetails.html'));
 });
 
+router.get('/contracts', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/contracts.html'));
+});
+
+router.get('/contracts/create',isAuthenticatedManager,(req,res)=>{
+    res.sendFile(path.join(__dirname, '../../public/html/createcontract.html'))
+})
+
 module.exports = router;

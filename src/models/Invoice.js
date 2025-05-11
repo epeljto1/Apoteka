@@ -4,11 +4,8 @@ module.exports = function(sequelize, DataTypes){
     const Invoice = sequelize.define("Invoice", {
         id: {
             type: Sequelize.INTEGER,
+            autoIncrement: true,
             primaryKey: true,
-            references: {
-                model: 'Deliveries',
-                key: 'id'
-            }
         },
         issueDate: {
             type: Sequelize.DATE,
@@ -22,9 +19,13 @@ module.exports = function(sequelize, DataTypes){
             type: Sequelize.STRING,
             allowNull: false
         },
-        delivery: {
+        deliveryId: {
             type: Sequelize.INTEGER,
-            allowNull: false
+            allowNull: false,
+            references: {
+                model: 'Deliveries',
+                key: 'id'
+            }
         }
     });
     return Invoice;
