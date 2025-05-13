@@ -21,7 +21,7 @@ module.exports = function(sequelize, DataTypes){
         },
         deliveryId: {
             type: Sequelize.INTEGER,
-            allowNull: false,
+            allowNull: true,
             references: {
                 model: 'Deliveries',
                 key: 'id'
