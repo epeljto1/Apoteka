@@ -6,7 +6,16 @@ body {
 }
 
 h1{
+    
     text-align: center;
+
+    /*
+    margin-left: 30%;
+    margin-right: 30%;
+    padding: 10px 10px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    */
 }
 
 #contractForm{
@@ -15,7 +24,7 @@ h1{
     padding: 40px;
     padding-left: 30px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
 }
 
 label {
@@ -93,4 +102,40 @@ select {
     border-radius: 5px;
     cursor: pointer;
 
+}
+
+
+#shape{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height: 50%;
+    background-color: #3b99fd;/*#27548ac3;*/
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: -1;
+
+}
+
+
+#backButton{
+    width: auto;
+    margin-left: 90%;
+    background-color: #f9f9f9;
+    color: rgb(154, 14, 14);
+    border-radius: 10px;
+    padding: 5px 10px;
+    font-size: 20px;
+    border: 1px solid black;
+
+   
+}
+
+#backButton:hover{
+    background-color: rgba(245, 187, 148, 0.619);
+  
+
+   
 }
