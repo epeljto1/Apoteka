@@ -115,3 +115,11 @@ button:hover {
 #addSupplierBtn button:hover {
     background-color: #45a049;
 }
+
+
+#addSupplierForm input{
+    padding: 5px;
+    border-radius: 3px;
+    border: 1px solid #888;
+
+}

@@ -40,7 +40,7 @@ input {
     height: 30px;
     font-size: 16px;
     padding-left: 10px;
-    border: 1px solid #ccc;
+    border: 2px solid #ccc;
     border-radius: 5px;
     margin-bottom: 10px;
 }
@@ -129,13 +129,9 @@ select {
     padding: 5px 10px;
     font-size: 20px;
     border: 1px solid black;
-
-   
+    text-decoration: none;
 }
 
 #backButton:hover{
     background-color: rgba(245, 187, 148, 0.619);
-  
-
-   
 }
