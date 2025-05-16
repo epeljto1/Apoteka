@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const PDFDocument = require('pdfkit');
-const { Contract, Supplier, Delivery, Invoice, InvoiceItems } = require('../models');
+const { Contract, Supplier, Delivery, Invoice, InvoiceItems, Product} = require('../models');
 
 
 // Dohvati sve ugovore sa dobavljačima
@@ -108,7 +108,7 @@ router.post('/contracts', async (req, res) => {
             subject,
             conclusionDate,
             expirationDate,
-            conditions,     
+            conditions,
             status,
             supplierId,
             deliveryDate,
@@ -116,27 +116,33 @@ router.post('/contracts', async (req, res) => {
             items
         } = req.body;
 
-        // 1. Kreiraj ugovor
+        
+        const supplier = await Supplier.findByPk(supplierId);
+        if (!supplier) {
+            return res.status(400).json({ message: "Dobavljač nije pronađen." });
+        }
+
+        
         const contract = await Contract.create({
             subject,
             conclusionDate,
             expirationDate,
-            conditions,     
+            conditions,
             status,
-            supplierId: supplierId || null
+            supplierId
         }, { transaction: t });
 
-        // 2. Kreiraj isporuku
+        
         const delivery = await Delivery.create({
             deliveryDate,
             status: deliveryStatus,
             contractId: contract.id
         }, { transaction: t });
 
-        // 3. Izračunaj ukupan iznos
+       
         const totalAmount = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
 
-        // 4. Kreiraj fakturu
+        
         const invoice = await Invoice.create({
             issueDate: new Date(),
             totalAmount,
@@ -144,13 +150,25 @@ router.post('/contracts', async (req, res) => {
             deliveryId: delivery.id
         }, { transaction: t });
 
-        // 5. Kreiraj stavke fakture
+        
         for (const item of items) {
+            
             await InvoiceItems.create({
                 productName: item.productName,
                 quantity: item.quantity,
                 cost: item.cost,
                 invoiceId: invoice.id
+            }, { transaction: t });
+
+            
+            await Product.create({
+                name: item.productName,
+                description: "",        
+                ingredients: "",        
+                manufacturer: supplier.name,  
+                expirationDate: new Date(),   
+                price: item.cost,
+                quantity: item.quantity
             }, { transaction: t });
         }
 
@@ -163,6 +181,7 @@ router.post('/contracts', async (req, res) => {
         res.status(500).json({ error: "Failed to create contract" });
     }
 });
+
 
 
 module.exports = router;
