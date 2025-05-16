@@ -1,149 +1,70 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Create contract</title>
-        <meta charset="UTF-8">
-        <link rel="stylesheet" href="../css/createcontract.css">
-    </head>
-    
-    <body>
-        <div id="shape">
+<head>
+    <title>Create contract</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../css/createcontract.css">
+</head>
+
+<body>
+    <div id="shape"></div>
+
+    <form id="contractForm">
+
+        <a id="backButton" href="/contracts">Cancel</a>
+
+        <h1>Create new contract</h1>
+        <hr>
+        <h2>Contract info</h2>
+
+        <label>Subject:</label><br>
+        <input type="text" name="subject" required>
+
+        <label>Conclusion date:</label>
+        <input id="conclusionDateField" type="date" name="conclusionDate" required>
+
+        <label>Expiration date:</label>
+        <input id="expirationDateField" type="date" name="expirationDate" required>
+
+        <label>Conditions:</label>
+        <textarea name="conditions" rows="4" style="width: 100%;" required></textarea>
+
+        <label>Status:</label>
+        <select name="status" required>
+            <option value="active">Active</option>
+            <option value="expired">Expired</option>
+            <option value="pending">Pending</option>
+        </select>
+
+     <label>Supplier:</label>
+<select name="supplierId" id="supplierSelect" required>
+</select>
+
+
+        <hr>
+        <h2>Delivery info</h2>
+
+        <label>Delivery date:</label>
+        <input id="deliveryDateField" type="date" name="deliveryDate" required>
+
+        <label>Delivery status:</label>
+        <select name="deliveryStatus" required>
+            <option value="shipped">Shipped</option>
+            <option value="processing">Processing</option>
+        </select>
+
+        <hr>
+        <h2>Invoice items</h2>
+
+        <div class="items-container" id="itemsContainer">
+            <!-- Items will be added dynamically -->
         </div>
-        
-        <form id="contractForm">
 
-            <a id="backButton" href="/contracts">
-                Cancel
-            </a>
+        <button type="button" id="addItemBtn">+ Add Item</button>
+        <button type="submit" id="createContractBtn">Create Contract</button>
 
-            <h1>Create new contract</h1>
-            <hr>
-            <h2>Contract info</h2>
-                <label>Subject:</label><br>
-                <input type="text" name="subject" required>
-                
-                
-                <label>Conclusion date:</label>
-                <input id="conclusionDateField" type="date" name="conclusionDate" required>
-                
-                <label>Expiration date:</label>
-                <input id="expirationDateField" type="date" name="expirationDate" required>
-                <br>
-                
-                <label>Status: &nbsp; &nbsp;&nbsp;</label>
-                <select name="status" required>
-                    <option value="active">Active</option>
-                    <option value="expired">Expired</option>
-                    <option value="pending">Pending</option>
-                </select>
-                <br>
-                
-                
-                <label>Supplier: &nbsp;</label>
-                <select name="supplierId" required>
-                    <% suppliers.forEach(supplier => { %>
-                        <option value="<%= supplier.id %>"><%= supplier.name %></option>
-                        <% }) %>
-                    </select>
-                    
-                    
-                    <hr>
-                    <h2>Delivery info</h2>
-                    
-                    <label>Delivery date:</label>
-                    <input id="deliveryDateField" type="date" name="deliveryDate" required>
-                    
-                    <label>Delivery status:</label>
-                    <select name="deliveryStatus" required>
-                        <option value="shipped">Shipped</option>
-                        <option value="processing">Processing</option>
-                    </select>
-                    <br>
-                    
-                    <hr>
-                    <h2>Invoice items</h2>
-                    <div class="items-container" id="itemsContainer">
-                        <!-- Items will be added dynamically -->
-                    </div>
-                    
-                    
-                    <button id="addItemBtn" type="button" id="addItemBtn">+ Add Item</button>    
-                    <button id="createContractBtn" type="submit">Create Contract</button>
-                    
-            </form>
-        
-            
-        <script>
-            document.getElementById("addItemBtn").addEventListener("click", () => {
-                const container = document.getElementById("itemsContainer");
-                const itemDiv = document.createElement("div");
-                
-                itemDiv.className = "item";
-                itemDiv.innerHTML = `
-                <label>Product Name:
-                    <input type="text" name="productName" required>
-                </label>
-                
-                <label>Quantity:
-                    <input type="number" name="quantity" min="1" required>
-                </label>
-                
-                <label>Cost:
-                    <input type="number" name="cost" min="0" step="0.01" required>
-                </label>
-                
-                <button type="button" class="removeItemBtn">Remove</button>
-                <br>
-                <br>`;
-                container.appendChild(itemDiv);
+    </form>
 
-                itemDiv.querySelector(".removeItemBtn").addEventListener("click", () => {
-                container.removeChild(itemDiv);
-                });
-            });
-
-            document.getElementById("contractForm").addEventListener("submit", async (e) => {
-                e.preventDefault();
-
-                const form = e.target;
-                const formData = new FormData(form);
-
-             const items = [];
-                document.querySelectorAll(".item").forEach(item => {
-                    items.push({
-                        productName: item.querySelector('[name="productName"]').value,
-                        quantity: parseInt(item.querySelector('[name="quantity"]').value),
-                        cost: parseFloat(item.querySelector('[name="cost"]').value)
-                    });
-                });
-
-                const data = {
-                    subject: formData.get("subject"),
-                    conclusionDate: formData.get("conclusionDate"),
-                    expirationDate: formData.get("expirationDate"),
-                    status: formData.get("status"),
-                 supplierId: formData.get("supplierId"),
-                    deliveryDate: formData.get("deliveryDate"),
-                    deliveryStatus: formData.get("deliveryStatus"),
-                    items
-                };
-
-                const response = await fetch("/api/contracts", {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(data)
-                });
-
-                if (response.ok) {
-                    alert("Contract created successfully!");
-                    window.location.href = "/contracts";
-                } else {
-                    alert("Error creating contract.");
-                }
-            });
-        </script>
-
-    </body>
+     <script src="/scripts/createContract.js"></script>
+</body>
 </html>
