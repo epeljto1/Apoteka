@@ -100,4 +100,69 @@ router.get('/contracts/:id/pdf', async (req, res) => {
     doc.end();
 });
 
+router.post('/contracts', async (req, res) => {
+    const t = await Contract.sequelize.transaction();
+
+    try {
+        const {
+            subject,
+            conclusionDate,
+            expirationDate,
+            conditions,     
+            status,
+            supplierId,
+            deliveryDate,
+            deliveryStatus,
+            items
+        } = req.body;
+
+        // 1. Kreiraj ugovor
+        const contract = await Contract.create({
+            subject,
+            conclusionDate,
+            expirationDate,
+            conditions,     
+            status,
+            supplierId: supplierId || null
+        }, { transaction: t });
+
+        // 2. Kreiraj isporuku
+        const delivery = await Delivery.create({
+            deliveryDate,
+            status: deliveryStatus,
+            contractId: contract.id
+        }, { transaction: t });
+
+        // 3. Izračunaj ukupan iznos
+        const totalAmount = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
+
+        // 4. Kreiraj fakturu
+        const invoice = await Invoice.create({
+            issueDate: new Date(),
+            totalAmount,
+            paymentMethod: 'Cash', 
+            deliveryId: delivery.id
+        }, { transaction: t });
+
+        // 5. Kreiraj stavke fakture
+        for (const item of items) {
+            await InvoiceItems.create({
+                productName: item.productName,
+                quantity: item.quantity,
+                cost: item.cost,
+                invoiceId: invoice.id
+            }, { transaction: t });
+        }
+
+        await t.commit();
+        res.status(201).json({ message: "Contract created successfully", contractId: contract.id });
+
+    } catch (err) {
+        await t.rollback();
+        console.error(err);
+        res.status(500).json({ error: "Failed to create contract" });
+    }
+});
+
+
 module.exports = router;
