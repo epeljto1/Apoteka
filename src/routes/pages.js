@@ -100,6 +100,10 @@ router.get('/contracts/create',isAuthenticatedManager,(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/html/createcontract.html'))
 })
 
+router.get('/supplierreport', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/supplierReport.html'));
+});
+
 router.get('/contracts/update/:id',isAuthenticatedManager,(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/html/updatecontract.html'))
 })
