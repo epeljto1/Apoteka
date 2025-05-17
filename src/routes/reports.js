@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const db = require('../models');
 const { sequelize } = require('../config/db');
-const { SalesInvoice, SalesInvoiceItems, Product } = db;  
+const { SalesInvoice, SalesInvoiceItems, Product, Report} = db;  
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
 
@@ -34,7 +34,7 @@ router.get('/reports/:id', async (req, res) => {
 
 const { Op } = require('sequelize');
 
-router.post('/reports', async (req, res) => {
+router.post('/reports/promet', async (req, res) => {
     const { startDate, endDate } = req.body;
 
     if (!startDate || !endDate) {
@@ -100,8 +100,48 @@ router.post('/reports', async (req, res) => {
         res.status(500).json({ message: 'Greška na serveru.' });
     }
 });
+function normalizeStatus(status) {
+    if (!status) return 'unknown';
+    const normalized = status.toLowerCase();
 
-router.post('/reports/download-pdf', async (req, res) => {
+    if (['aktivan', 'active'].includes(normalized)) return 'active';
+    if (['neaktivan', 'inactive', 'pending'].includes(normalized)) return 'inactive';
+    if (['uspješno okončan', 'fulfilled'].includes(normalized)) return 'fulfilled';
+    if (['neuspješno okončan', 'raskinut', 'terminated'].includes(normalized)) return 'terminated';
+
+    return 'other';
+}
+router.post('/reports/contracts', async (req, res) => {
+    const { startDate, endDate } = req.body;
+
+    try {
+        const where = {};
+        if (startDate && endDate) {
+            where.conclusionDate = { [Op.between]: [new Date(startDate), new Date(endDate)] };
+        } else if (startDate) {
+            where.conclusionDate = { [Op.gte]: new Date(startDate) };
+        } else if (endDate) {
+            where.conclusionDate = { [Op.lte]: new Date(endDate) };
+        }
+
+        const contracts = await db.Contract.findAll({ where });
+        const report = {
+            totalContracts: contracts.length,
+            fulfilled: contracts.filter(c => normalizeStatus(c.status) === 'fulfilled').length,
+            terminated: contracts.filter(c => normalizeStatus(c.status) === 'terminated').length,
+            inactive: contracts.filter(c => normalizeStatus(c.status) === 'inactive').length,
+            active: contracts.filter(c => normalizeStatus(c.status) === 'active').length,
+            changes: contracts.reduce((sum, c) => sum + (c.numberOfChanges || 0), 0)
+        };
+
+        res.json({ report });
+
+    } catch (err) {
+        console.error('Greška:', err);
+        res.status(500).json({ message: 'Greška na serveru.' });
+    }
+});
+router.post('/reports/promet/download-pdf', async (req, res) => {
     const { startDate, endDate } = req.body;
 
     try {
@@ -223,6 +263,224 @@ router.post('/reports/download-pdf', async (req, res) => {
     }
 });
 
+function drawKeyValueLine(key, value, y, doc) {
+    const keyX = 50;
+    const valueX = 300;
+
+    doc.font('Helvetica-Bold').text(`${key}`, keyX, y);
+    doc.font('Helvetica').text(`${value}`, valueX, y);
+}
+
+router.post('/reports/contracts/download-pdf', async (req, res) => {
+    const { startDate, endDate } = req.body;
+    const { Op } = require('sequelize');
+    
+
+    try {
+        const where = {};
+        if (startDate && endDate) {
+            where.conclusionDate = { [Op.between]: [new Date(startDate), new Date(endDate)] };
+        } else if (startDate) {
+            where.conclusionDate = { [Op.gte]: new Date(startDate) };
+        } else if (endDate) {
+            where.conclusionDate = { [Op.lte]: new Date(endDate) };
+        }
+
+        const contracts = await db.Contract.findAll({ where });
+
+        const report = {
+            totalContracts: contracts.length,
+            fulfilled: contracts.filter(c => normalizeStatus(c.status) === 'fulfilled').length,
+            terminated: contracts.filter(c => normalizeStatus(c.status) === 'terminated').length,
+            inactive: contracts.filter(c => normalizeStatus(c.status) === 'inactive').length,
+            active: contracts.filter(c => normalizeStatus(c.status) === 'active').length,
+            changes: contracts.reduce((sum, c) => sum + (c.numberOfChanges || 0), 0)
+        };
+        
+        contracts.forEach(c => {
+            console.log('STATUS:', c.status, ' => ', normalizeStatus(c.status));
+        });
+        
+        // Kreiranje PDF dokumenta
+        const doc = new PDFDocument({ margin: 50 });
+        res.setHeader('Content-Disposition', 'attachment; filename=ugovori-izvjestaj.pdf');
+        res.setHeader('Content-Type', 'application/pdf');
+        doc.pipe(res);
+
+        // Naslov
+        doc.fontSize(20).text('Izvještaj o ugovorima', { align: 'center' });
+        doc.moveDown(1);
+        doc.fontSize(12).text(`Period: ${startDate || '---'} do ${endDate || '---'}`, { align: 'center' });
+        doc.moveDown(2);
+
+        // Tabela
+        let y = doc.y;
+
+        drawKeyValueLine('Ukupan broj ugovora:', report.totalContracts, y, doc);
+        y += 20;
+        drawKeyValueLine('Ispunjeni:', report.fulfilled, y, doc);
+        y += 20;
+        drawKeyValueLine('Raskinuti:', report.terminated, y, doc);
+        y += 20;
+        drawKeyValueLine('Neaktivni:', report.inactive, y, doc);
+        y += 20;
+        drawKeyValueLine('Aktivni:', report.active, y, doc);
+        y += 20;
+        drawKeyValueLine('Ukupan broj izmjena:', report.changes, y, doc);
 
 
+        doc.moveDown(2);
+
+        // Datum i potpis
+        const today = new Date();
+        const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}.`;
+        doc.text(`Datum generisanja: ${formattedDate}`, { align: 'right' });
+        doc.moveDown(2);
+        doc.text('________________________', { align: 'right' });
+        doc.text('Potpis odgovorne osobe', { align: 'right' });
+
+        doc.end();
+
+    } catch (err) {
+        console.error('Greška pri generisanju PDF izvještaja o ugovorima:', err);
+        res.status(500).json({ message: 'Greška pri generisanju PDF-a za ugovore.' });
+    }
+});
+
+router.post('/reports/deliveries', async (req, res) => {
+    const { startDate, endDate } = req.body;
+
+    try {
+        const where = {};
+        if (startDate && endDate) {
+            where.deliveryDate = { [Op.between]: [new Date(startDate), new Date(endDate)] };
+        } else if (startDate) {
+            where.deliveryDateDate = { [Op.gte]: new Date(startDate) };
+        } else if (endDate) {
+            where.deliveryDateDate = { [Op.lte]: new Date(endDate) };
+        }
+
+        const deliveries = await db.Delivery.findAll({ where });
+        const deliveryIds = deliveries.map(d => d.id);
+        const invoices = await db.Invoice.findAll({
+            where: {
+                deliveryId: {
+                    [Op.in]: deliveryIds
+                }
+            }
+        });
+        const normalizeStatus = status => {
+            const s = status.toLowerCase();
+            if (['finished', 'uspješna', 'shipped'].includes(s)) return 'izvršena';
+            if (['neuspješna', 'nepotpuna', 'failed'].includes(s)) return 'nepotpuna';
+            if (['terminated', 'obustavljena'].includes(s)) return 'obustavljena';
+            if (['processing', 'aktivna'].includes(s)) return 'aktivna';
+            return 'nepoznato';
+        };
+        const report = {
+            totalDeliveries: deliveries.length,
+            izvršena: deliveries.filter(d => normalizeStatus(d.status) === 'izvršena').length,
+            nepotpuna: deliveries.filter(d => normalizeStatus(d.status) === 'nepotpuna').length,
+            obustavljena: deliveries.filter(d => normalizeStatus(d.status) === 'obustavljena').length,
+            aktivna: deliveries.filter(d => normalizeStatus(d.status) === 'aktivna').length,
+            ukupnoUplaceno: invoices.reduce((sum, inv) => sum + (inv.totalAmount || 0), 0)
+        };
+
+        res.json({ report });
+
+    } catch (err) {
+        console.error('Greška:', err);
+        res.status(500).json({ message: 'Greška na serveru.' });
+    }
+});
+router.post('/reports/deliveries/download-pdf', async (req, res) => {
+    const { startDate, endDate } = req.body;
+    const { Op } = require('sequelize');
+    
+
+    try {
+        const where = {};
+        if (startDate && endDate) {
+            where.deliveryDate = { [Op.between]: [new Date(startDate), new Date(endDate)] };
+        } else if (startDate) {
+            where.deliveryDate = { [Op.gte]: new Date(startDate) };
+        } else if (endDate) {
+            where.deliveryDate = { [Op.lte]: new Date(endDate) };
+        }
+
+        const deliveries = await db.Delivery.findAll({ where });
+        const deliveryIds = deliveries.map(d => d.id);
+        const invoices = await db.Invoice.findAll({
+            where: {
+                deliveryId: {
+                    [Op.in]: deliveryIds
+                }
+            }
+        });
+        const normalizeStatus = status => {
+            const s = status.toLowerCase();
+            if (['finished', 'uspješna', 'shipped'].includes(s)) return 'izvršena';
+            if (['neuspješna', 'nepotpuna', 'failed'].includes(s)) return 'nepotpuna';
+            if (['terminated', 'obustavljena'].includes(s)) return 'obustavljena';
+            if (['processing', 'aktivna'].includes(s)) return 'aktivna';
+            return 'nepoznato';
+        };
+        const report = {
+            totalDeliveries: deliveries.length,
+            izvršena: deliveries.filter(d => normalizeStatus(d.status) === 'izvršena').length,
+            nepotpuna: deliveries.filter(d => normalizeStatus(d.status) === 'nepotpuna').length,
+            obustavljena: deliveries.filter(d => normalizeStatus(d.status) === 'obustavljena').length,
+            aktivna: deliveries.filter(d => normalizeStatus(d.status) === 'aktivna').length,
+            ukupnoUplaceno: invoices.reduce((sum, inv) => sum + (inv.totalAmount || 0), 0)
+        };
+
+        deliveries.forEach(c => {
+            console.log('STATUS:', c.status, ' => ', normalizeStatus(c.status));
+        });
+        
+        // Kreiranje PDF dokumenta
+        const doc = new PDFDocument({ margin: 50 });
+        res.setHeader('Content-Disposition', 'attachment; filename=ugovori-izvjestaj.pdf');
+        res.setHeader('Content-Type', 'application/pdf');
+        doc.pipe(res);
+
+        // Naslov
+        doc.fontSize(20).text('Izvještaj o isporukama', { align: 'center' });
+        doc.moveDown(1);
+        doc.fontSize(12).text(`Period: ${startDate || '---'} do ${endDate || '---'}`, { align: 'center' });
+        doc.moveDown(2);
+
+        // Tabela
+        let y = doc.y;
+
+        drawKeyValueLine('Ukupan broj isporuka:', report.totalDeliveries, y, doc);
+        y += 20;
+        drawKeyValueLine('Izvrseno:', report.izvršena, y, doc);
+        y += 20;
+        drawKeyValueLine('Nepotpuno:', report.nepotpuna, y, doc);
+        y += 20;
+        drawKeyValueLine('Obustavljeno:', report.obustavljena, y, doc);
+        y += 20;
+        drawKeyValueLine('Aktivno:', report.aktivna, y, doc);
+        y += 20;
+        drawKeyValueLine('Ukupan iznos:', report.ukupnoUplaceno, y, doc);
+
+
+        doc.moveDown(2);
+
+        // Datum i potpis
+        const today = new Date();
+        const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}.`;
+        doc.text(`Datum generisanja: ${formattedDate}`, { align: 'right' });
+        doc.moveDown(2);
+        doc.text('________________________', { align: 'right' });
+        doc.text('Potpis odgovorne osobe', { align: 'right' });
+
+        doc.end();
+
+    } catch (err) {
+        console.error('Greška pri generisanju PDF izvještaja o izvjestajima:', err);
+        res.status(500).json({ message: 'Greška pri generisanju PDF-a za izvjestajima.' });
+    }
+});
 module.exports = router;
