@@ -61,7 +61,8 @@ const AjaxContracts = (() => {
                     <td>${new Date(contract.expirationDate).toLocaleDateString()}</td>
                     <td>${contract.status}</td>
                     <td>${contract.Supplier?.name || 'N/A'}</td>
-                    <td><button class="download-pdf-btn" data-id="${contract.id}">Send E-mail to Supplier</button></td>
+                    <td><button class="download-pdf-btn" data-id="${contract.id}">Send E-mail to Supplier</button>
+                    <button class="update-contract-btn" data-id="${contract.id}">Update Contract</button></td>
                 `;
                 tbody.appendChild(row);
             });
@@ -90,6 +91,14 @@ const AjaxContracts = (() => {
                 window.location.href = `http://localhost:3000/api/contracts/${contractId}/pdf`;
             }
         });
+
+        document.querySelector("#contractsTable").addEventListener("click", (e) => {
+    if (e.target && e.target.classList.contains("update-contract-btn")) {
+        const contractId = e.target.getAttribute("data-id");
+        window.location.href = `/contracts/update/${contractId}`;
+    }
+});
+
 
         document.getElementById("createContractBtn").addEventListener("click", () => {
             window.location.href = "/contracts/create";
