@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Brze narudžbe</title>
+    <link rel="stylesheet" href="../css/reports.css" />
+    <link rel="stylesheet" href="../css/sidebar.css" />
+  </head>
+
+  <body>
+    <h1 style="text-align: center;">Automatsko generisanje ugovora</h1>
+
+    <div id="meni" class="sidenav">
+      <a href="/deliveries">Deliveries</a>
+      <a href="/suppliers">Suppliers</a>
+      <a href="/contracts">Contracts</a>
+      <a href="/reports">Reports</a>
+      <a href="/quickcontracts">Quick Contracts</a>
+      <a href="/login">Log out</a>
+    </div>
+
+    <div style="margin-left:220px; padding:20px;">
+      <label for="contractType">Izaberi tip narudžbe:</label>
+      <select id="contractType">
+        <option value="">-- Odaberi --</option>
+        <option value="expiring">Narudžba lijekova s kritičnim rokom trajanja</option>
+        <option value="bestsellers">Narudžba najprodavanijih lijekova</option>
+      </select>
+
+      <button id="generateReportBtn">Pošalji narudžbe</button>
+      <br><br>
+
+      <table id="quickContractsTable">
+        <thead>
+          <tr>
+            <th>Naziv lijeka</th>
+            <th>Dobavljač</th>
+            <th>Trenutna količina</th>
+            <th>Prodajna cijena</th>
+            <th>Nabavna količina</th>
+            <th>Nabavna cijena</th>
+            <th>Naručiti</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <!-- Popunjava se putem JS-a -->
+        </tbody>
+      </table>
+    </div>
+
+    <script src="../scripts/quickContracts.js"></script>
+  </body>
+  <div id="toast" class="toast hidden">Ugovori uspješno formirani.</div>
+    <style>
+    .toast {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: #38a169; /* zelena */
+        color: white;
+        padding: 16px 24px;
+        border-radius: 8px;
+        font-size: 16px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        opacity: 0;
+        transition: opacity 0.5s ease, transform 0.5s ease;
+        transform: translateY(20px);
+        z-index: 9999;
+    }
+
+    .toast.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .toast.hidden {
+        display: none;
+    }
+    </style>
+</html>

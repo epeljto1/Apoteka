@@ -108,4 +108,8 @@ router.get('/contracts/update/:id',isAuthenticatedManager,(req,res)=>{
     res.sendFile(path.join(__dirname, '../../public/html/updatecontract.html'))
 })
 
+router.get('/quickcontracts', isAuthenticatedManager, (req, res) => {
+    res.sendFile(path.join(__dirname, '../../public/html/quickContracts.html'));
+});
+
 module.exports = router;
