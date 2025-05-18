@@ -4,7 +4,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     reportTypeSelect.addEventListener('change', function () {
       const selectedValue = this.value;
-  
+    if (selectedValue === 'suppliers') {
+        window.location.href = '/supplierreport';
+        return;
+    }
       // Sakrij sve izvještaje
       reportSections.forEach(section => {
         section.style.display = 'none';
@@ -151,6 +154,10 @@ document.addEventListener('DOMContentLoaded', async () => {
                 console.error('Greška pri izvještaju o isporukama:', err);
                 alert('Greška pri izvještaju o isporukama.');
             }
+        }
+        if(type === 'suppliers'){
+           window.location.href = "/supplierreport"
+            return; // da se ne izvršava dalji kod za prikaz sekcija
         }
     }
     
