@@ -1,0 +1,116 @@
+body {
+    background-color: #fcfcfc;
+    font-family: Arial, sans-serif; 
+    padding: 50px;
+ 
+}
+
+h1{
+    margin-bottom: 0px;
+}
+
+#contractForm{
+    background-color: white;
+    /*margin: 30px 12% 30px 12%;*/
+    /*padding: 40px;
+    padding-left: 30px;
+    */
+    padding: 40px;
+    padding-right: 50px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    margin-top: 15px;
+}
+
+form label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 18px;
+    color: #121111;
+    font-weight: bold;
+    
+}
+
+input, select, textarea {
+    width: 100%;
+    margin: 0px;
+    margin-bottom: 10px;
+    border: 2px solid #00000088;
+    border-radius: 3px;
+    font-size: 16px;
+    font-family: Arial, Helvetica, sans-serif; 
+    padding: 8px;
+    padding-right: 0px;
+}
+
+textarea{
+    height: 100px;
+}
+
+
+.item{
+    border: 2px solid #ccc; 
+    padding: 10px; 
+    padding-right: 20px;
+    margin-bottom: 10px; 
+    border-radius: 5px;
+}
+
+.item input{
+   
+    width: 100%;
+    margin-right: 50%;
+}
+
+
+#addItemBtn{
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-bottom: 20px;
+
+}
+
+.removeItemBtn{
+    background-color: #cb1e1e;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+
+
+#updateContractBtn{
+    background-color: #09a826;
+    color: white;
+    padding: 10px 15px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+
+}
+
+#backButton{
+    width: 25%;
+    background-color: #f9f9f9;
+    color: rgb(154, 14, 14);
+    border-radius: 10px;
+    padding: 5px 25px;
+    font-size: 16px;
+    border: 1px solid rgb(0, 0, 0);
+    text-decoration: none;
+    margin-left: 90%;
+}
+    
+#backButton:hover{
+    background-color: rgba(245, 187, 148, 0.619);
+}

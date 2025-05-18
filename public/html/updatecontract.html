@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Update Contract</title>
-    <style>
-        body { font-family: Arial, sans-serif; padding: 20px; }
-        form label { display: block; margin: 10px 0 5px; }
-        input, select, textarea { width: 100%; padding: 8px; margin-bottom: 10px; }
-        .item, .invoice-item { border: 1px solid #ccc; padding: 10px; margin-bottom: 10px; border-radius: 5px; }
-        button { padding: 10px 15px; }
-        #addItemBtn { margin-bottom: 20px; }
-    </style>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Update contract</title>
+        <link rel="stylesheet" href="/css/updatecontract.css">
+    </head>
+    
+    <body>
+        
+        <h1>Update contract</h1>
 
-<h1>Update Contract</h1>
+        <a id="backButton" href="/contracts">Back</a>
+               
+        <form id="contractForm">
+            <label for="subject">Subject:</label>
+            <input type="text" id="subject" name="subject" required>
+            
+            <label for="purpose">Purpose:</label>
+            <input type="text" id="purpose" name="purpose" required>
+            
+            <label for="conclusionDate">Conclusion Date:</label>
+            <input type="date" id="conclusionDate" name="conclusionDate" required>
+            
+            <label for="expirationDate">Expiration Date:</label>    
+            <input type="date" id="expirationDate" name="expirationDate" required>
+            
+            <label for="conditions">Conditions:</label>    
+            <textarea id="conditions" name="conditions" required></textarea>
+            
+            <label for="status">Status:</label>    
+            <select id="status" name="status" required>
+                <option value="active">Active</option>
+                <option value="expired">Expired</option>
+                <option value="terminated">Terminated</option>
+            </select>
+            
+            
+            <label for="supplierSelect">Supplier:</label>
+            <select id="supplierSelect" name="supplierId" required></select>
+            
+            <label for="deliveryDate">Delivery Date:</label>
+            <input type="date" id="deliveryDate" name="deliveryDate" required>
+            <label for="deliveryStatus">Delivery Status:</label>
+            
+            <select id="deliveryStatus" name="deliveryStatus" required>
+                <option value="pending">Pending</option>
+                <option value="processing">Processing</option>
+                <option value="delivered">Delivered</option>
+            </select>
+            
+            
+            <h3>Contract items</h3>
+            <div id="itemsContainer"></div>
+            <button type="button" id="addItemBtn">Add item</button>
+            
+            
+            <h3>Linked invoice items</h3>
+            <div id="invoiceItemsContainer"></div>
+            
+            <button id="updateContractBtn" type="submit">Update contract</button>
 
-<form id="contractForm">
-    <label for="subject">Subject:</label>
-    <input type="text" id="subject" name="subject" required>
+            
+        </form>
 
-    <label for="purpose">Purpose:</label>
-    <input type="text" id="purpose" name="purpose" required>
+        <script src="/scripts/updateContract.js"></script>
 
-    <label for="conclusionDate">Conclusion Date:</label>
-    <input type="date" id="conclusionDate" name="conclusionDate" required>
-
-    <label for="expirationDate">Expiration Date:</label>
-    <input type="date" id="expirationDate" name="expirationDate" required>
-
-    <label for="conditions">Conditions:</label>
-    <textarea id="conditions" name="conditions" required></textarea>
-
-    <label for="status">Status:</label>
-    <select id="status" name="status" required>
-        <option value="active">Active</option>
-        <option value="expired">Expired</option>
-        <option value="terminated">Terminated</option>
-    </select>
-
-    <label for="supplierSelect">Supplier:</label>
-    <select id="supplierSelect" name="supplierId" required></select>
-
-    <label for="deliveryDate">Delivery Date:</label>
-    <input type="date" id="deliveryDate" name="deliveryDate" required>
-
-    <label for="deliveryStatus">Delivery Status:</label>
-    <select id="deliveryStatus" name="deliveryStatus" required>
-        <option value="pending">Pending</option>
-        <option value="processing">Processing</option>
-        <option value="delivered">Delivered</option>
-    </select>
-
-    <h3>Contract Items</h3>
-    <div id="itemsContainer"></div>
-    <button type="button" id="addItemBtn">Add Item</button>
-
-    <h3>Linked Invoice Items</h3>
-    <div id="invoiceItemsContainer"></div>
-
-    <button type="submit">Update Contract</button>
-</form>
-
-<script src="/scripts/updateContract.js"></script>
-</body>
+    </body>
 </html>

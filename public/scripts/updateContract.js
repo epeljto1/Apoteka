@@ -36,14 +36,14 @@ document.addEventListener("DOMContentLoaded", () => {
         itemDiv.className = "item";
         itemDiv.innerHTML = `
             <label>Product Name:
+            </label>
                 <input type="text" name="productName" value="${item.productName || ''}" required>
-            </label>
             <label>Quantity:
+            </label>
                 <input type="number" name="quantity" value="${item.quantity || 1}" min="1" required>
-            </label>
             <label>Cost:
-                <input type="number" name="cost" value="${item.cost || 0}" min="0" step="0.01" required>
             </label>
+                <input type="number" name="cost" value="${item.cost || 0}" min="0" step="0.01" required>
             <button type="button" class="removeItemBtn">Remove</button><br><br>
         `;
         itemDiv.querySelector(".removeItemBtn").addEventListener("click", () => {
