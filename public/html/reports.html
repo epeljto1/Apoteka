@@ -5,6 +5,7 @@
     <title>Evidencija dobavljača</title>
     <link rel="stylesheet" href="../css/reports.css"> 
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="../css/supplierReport.css">
   </head>
 
   <body>
@@ -15,98 +16,131 @@
       <a href="/suppliers">Suppliers</a>
       <a href="/contracts">Contracts</a>
       <a href="/reports">Reports</a>
-      <a href="/quickcontracts">Quick Contracts</a>
+      <a href="/quickcontracts">Quick contracts</a>
       <a href="/login">Log out</a>
     </div>
 
     <div style="margin-left:220px; padding:20px;">
-        <label for="reportType">Izaberi tip izvještaja:</label>
+        <label for="reportType">Izaberite tip izvještaja:</label>
         <select id="reportType">
-            <option value="">-- Odaberi --</option>
+            <option  value="">Neselektovan tip izvještaja</option>
             <option value="promet">Najprodavaniji lijek</option>
             <option value="suppliers">Dobavljači</option>
             <option value="contracts">Ugovori</option>
             <option value="deliveries">Isporuke</option>
         </select>
-        <br><br>
+
+        <br>
+        <hr>
+        <br>
+        
         <div id="report-promet" class="report-section" style="display:none;">
           <label for="startDate-promet">Od datuma:</label>
           <input type="date" id="startDate-promet">
+          <br>
 
           <label for="endDate-promet">Do datuma:</label>
           <input type="date" id="endDate-promet">
+          <br>
+         
           <button id="generateReportBtn-promet">Prikaži izvještaj</button>
           <button id="downloadReportBtn-promet" onclick="downloadPDF('promet')" >Preuzmi izvještaj</button>
-          <br><br>
-        <table id="reportsTable-promet">
-          <thead>
-            <tr>
-              <th>Naziv</th>
-              <th>Proizvođač</th>
-              <th>Cijena</th>
-              <th>Količina</th>
-              <th>Zarada</th>
-            </tr>
-          </thead>
+          <br>
+          <br>
+          
+          <table id="reportsTable-promet">
+            <thead>
+              <tr>
+                <th>Naziv</th>
+                <th>Proizvođač</th>
+                <th>Cijena</th>
+                <th>Količina</th>
+                <th>Zarada</th>
+              </tr>
+            </thead>
         
-          <tbody>
-          </tbody>
-        </table>
-      </div>
-      <div id="report-contracts" class="report-section" style="display:none;">
-        <label for="startDate-contracts">Od datuma:</label>
-        <input type="date" id="startDate-contracts">
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="report-contracts" class="report-section" style="display:none;">
+          <label for="startDate-contracts">Od datuma:</label>
+          <input type="date" id="startDate-contracts">
+          <br>
 
-        <label for="endDate-contracts">Do datuma:</label>
-        <input type="date" id="endDate-contracts">
-        <button id="generateReportBtn-contracts">Prikaži izvještaj</button>
-        <button id="downloadReportBtn-contracts" onclick="downloadPDF('contracts')" >Preuzmi izvještaj</button>
-        <br><br>
-      <table id="reportsTable-contracts">
-        <thead>
-          <tr>
-            <th>Ukupno</th>
-            <th>Ispunjen</th>
-            <th>Raskinut</th>
-            <th>Neaktivan</th>
-            <th>Aktivan</th>
-            <th>Izmjene</th>
-          </tr>
-        </thead>
+          <label for="endDate-contracts">Do datuma:</label>
+          <input type="date" id="endDate-contracts">
+          <br>
+
+          <button id="generateReportBtn-contracts">Prikaži izvještaj</button>
+          <button id="downloadReportBtn-contracts" onclick="downloadPDF('contracts')" >Preuzmi izvještaj</button>
+          <br>
+          <br>
+        
+          <table id="reportsTable-contracts">
+            <thead>
+              <tr>
+                <th>Ukupno</th>
+                <th>Ispunjen</th>
+                <th>Raskinut</th>
+                <th>Neaktivan</th>
+                <th>Aktivan</th>
+                <th>Izmjene</th>
+              </tr>
+            </thead>
       
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-    <div id="report-deliveries" class="report-section" style="display:none;">
-      <label for="startDate-deliveries">Od datuma:</label>
-      <input type="date" id="startDate-deliveries">
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+        
+        <div id="report-deliveries" class="report-section" style="display:none;">
+          <label for="startDate-deliveries">Od datuma:</label>
+          <input type="date" id="startDate-deliveries">
+          <br>
+          
+          <label for="endDate-deliveries">Do datuma:</label>
+          <input type="date" id="endDate-deliveries">
+          <br>
 
-      <label for="endDate-deliveries">Do datuma:</label>
-      <input type="date" id="endDate-deliveries">
-      <button id="generateReportBtn-deliveries">Prikaži izvještaj</button>
-      <button id="downloadReportBtn-deliveries" onclick="downloadPDF('deliveries')" >Preuzmi izvještaj</button>
-      <br><br>
-    <table id="reportsTable-deliveries">
-      <thead>
-        <tr>
-          <th>Ukupno</th>
-          <th>Izvršeno</th>
-          <th>Nepotpuno</th>
-          <th>Obustavljeno</th>
-          <th>Aktivno</th>
-          <th>Ukupan iznos</th>
-        </tr>
-      </thead>
+          <button id="generateReportBtn-deliveries">Prikaži izvještaj</button>
+          <button id="downloadReportBtn-deliveries" onclick="downloadPDF('deliveries')" >Preuzmi izvještaj</button>
+          <br>
+          <br>
     
-      <tbody>
-      </tbody>
-    </table>
-  </div>
+          <table id="reportsTable-deliveries">
+            <thead>
+              <tr>
+                <th>Ukupno</th>
+                <th>Izvršeno</th>
+                <th>Nepotpuno</th>
+                <th>Obustavljeno</th>
+                <th>Aktivno</th>
+                <th>Ukupan iznos</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+            </tbody>
+          </table>
+        </div>
+
+        <div id="report-suppliers" class="report-section" style="display: none;">
+          <button id="showTableBtn">Prikaži izvještaj</button>
+          <button id="generateReportBtn" onclick="downloadPDF('supplierReport')" >Preuzmi izvještaj</button>
+          <br>
+          <br>
+          <div id="reportTableContainer">
+
+          </div>
+
+
+        </div>
+
     </div>
 
     <script src="../scripts/reports.js"></script>
     <script src="../scripts/supplierReport.js"></script>
-
   </body>
 </html>

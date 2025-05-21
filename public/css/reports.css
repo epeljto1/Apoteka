@@ -5,6 +5,11 @@ body {
 
 h1 {
     margin-top: 20px;
+    margin-left: 20%;
+    margin-right: 5%;
+    padding-right: 2%;
+    text-align: center;
+
 }
 
 #searchInput {
@@ -42,7 +47,9 @@ tr:hover {
 #generateReportBtn-contracts,
 #downloadReportBtn-contracts,
 #generateReportBtn-deliveries,
-#downloadReportBtn-deliveries{
+#downloadReportBtn-deliveries,
+#showTableBtn,
+#generateReportBtn{
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -53,11 +60,23 @@ tr:hover {
     font-size: 16px;
     transition: background-color 0.3s ease;
 }
-input,
-label,
+
 button{
     margin-right: 15px;
 }
+
+label{
+    font-size: 18px;
+}
+
+#reportType{
+    width: 20%;
+    height: 30px;
+    font-size: 15px;
+    border: 1px solid #353232;
+    border-radius: 3px;
+}
+
 
 #generateReportBtn button:hover {
     background-color: #45a049;
@@ -78,3 +97,26 @@ button{
   .report-table th {
     background-color: #f0f0f0;
   }
+
+
+
+
+
+
+#startDate-promet, #endDate-promet, #startDate-contracts, #endDate-contracts, #startDate-deliveries, #endDate-deliveries{
+    width: 25%;
+    height: 25px;
+    border-radius: 2px;
+    font-family: Arial, Helvetica, sans-serif;
+    border: 1px solid #353232;
+    border-radius: 3px;
+    padding: 2px 5px;
+    margin-right: 10px; 
+    margin-bottom: 5px;   
+}
+
+#reportsTable-promet,
+#reportsTable-contracts,
+#reportsTable-deliveries{
+    visibility: hidden;
+}

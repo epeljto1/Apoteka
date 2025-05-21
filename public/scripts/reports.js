@@ -4,10 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     reportTypeSelect.addEventListener('change', function () {
       const selectedValue = this.value;
-    if (selectedValue === 'suppliers') {
-        window.location.href = '/supplierreport';
-        return;
-    }
+    
       // Sakrij sve izvještaje
       reportSections.forEach(section => {
         section.style.display = 'none';
@@ -102,6 +99,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 alert('Greška pri izvještaju o prometu.');
             }
         }
+        
         if (type === 'contracts') {
             const startDate = document.getElementById('startDate-contracts').value;
             const endDate = document.getElementById('endDate-contracts').value;
@@ -156,14 +154,16 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         }
         if(type === 'suppliers'){
-           window.location.href = "/supplierreport"
-            return; // da se ne izvršava dalji kod za prikaz sekcija
+           
+           return
         }
     }
     
     function displayReports(reportsList) {
         console.log("Prikazujem raport:", reportsList); 
         reportsTableBody.innerHTML = '';
+        //Tabela postaje vidljive
+        document.getElementById("reportsTable-promet").style.visibility = "visible";        
 
         if (reportsList.length === 0) {
             reportsTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nema rezultata za odabrani period.</td></tr>';
@@ -182,8 +182,10 @@ document.addEventListener('DOMContentLoaded', async () => {
             reportsTableBody.appendChild(tr);
         });
     }
+
     function displayContractsReport(report) {
         reportsTableBodyContracts.innerHTML = '';
+        document.getElementById("reportsTable-contracts").style.visibility = "visible";
     
         const row = document.createElement('tr');
         row.innerHTML = `
@@ -197,9 +199,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     
         reportsTableBodyContracts.appendChild(row);
     }
+
     function displayDeliveriesReport(report) {
         console.log('Prikazujem izvještaj o isporukama:', report);
         reportsTableBodyDeliveries.innerHTML = '';
+        document.getElementById("reportsTable-deliveries").style.visibility = "visible";
+
+
     
         const row = document.createElement('tr');
         row.innerHTML = `
