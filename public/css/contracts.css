@@ -40,7 +40,6 @@ table {
     border-collapse: collapse;
     background-color: #ffffff;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-    border-radius: 10%;
 }
 
 
@@ -61,19 +60,37 @@ tr:hover {
 
 
 .download-pdf-btn {
-    padding: 5px 10px;
+    padding: 7px 10px;
     background-color: #2196F3;
     color: white;
     border: none;
     cursor: pointer;
     border-radius: 4px;
     height: auto;
-    min-height: 30px;
+    width: 120px;
 }
 
 .download-pdf-btn:hover {
     background-color: #0b7dda;
 }
+
+.update-contract-btn {
+    padding: 7px 10px;
+    margin-top: 5px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 4px;
+    height: auto;
+    width: 120px;
+}
+
+
+.update-contract-btn:hover {
+    background-color: #0b7dda;
+}
+
 
 .meni{
     width: 100%;

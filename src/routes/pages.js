@@ -113,3 +113,4 @@ router.get('/quickcontracts', isAuthenticatedManager, (req, res) => {
 });
 
 module.exports = router;
+

@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const path = require('path');
 const PDFDocument = require('pdfkit');
-const { Contract, Supplier, Delivery, Invoice, InvoiceItems } = require('../models');
+const { Contract, Supplier, Delivery, Invoice, InvoiceItems, Product, Modification} = require('../models');
 
 
 // Dohvati sve ugovore sa dobavljačima
@@ -99,5 +99,237 @@ router.get('/contracts/:id/pdf', async (req, res) => {
 
     doc.end();
 });
+
+router.post('/contracts', async (req, res) => {
+    const t = await Contract.sequelize.transaction();
+
+    try {
+        const {
+            subject,
+            conclusionDate,
+            expirationDate,
+            conditions,
+            status,
+            supplierId,
+            deliveryDate,
+            deliveryStatus,
+            items
+        } = req.body;
+
+        
+        const supplier = await Supplier.findByPk(supplierId);
+        if (!supplier) {
+            return res.status(400).json({ message: "Dobavljač nije pronađen." });
+        }
+
+        
+        const contract = await Contract.create({
+            subject,
+            conclusionDate,
+            expirationDate,
+            conditions,
+            status,
+            supplierId
+        }, { transaction: t });
+
+        
+        const delivery = await Delivery.create({
+            deliveryDate,
+            status: deliveryStatus,
+            contractId: contract.id
+        }, { transaction: t });
+
+       
+        const totalAmount = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
+
+        
+        const invoice = await Invoice.create({
+            issueDate: new Date(),
+            totalAmount,
+            paymentMethod: 'Cash', 
+            deliveryId: delivery.id
+        }, { transaction: t });
+
+        
+        for (const item of items) {
+            
+            await InvoiceItems.create({
+                productName: item.productName,
+                quantity: item.quantity,
+                cost: item.cost,
+                invoiceId: invoice.id
+            }, { transaction: t });
+
+            
+            await Product.create({
+                name: item.productName,
+                description: "",        
+                ingredients: "",        
+                manufacturer: supplier.name,  
+                expirationDate: new Date(),   
+                price: item.cost,
+                quantity: item.quantity
+            }, { transaction: t });
+        }
+
+        await t.commit();
+        res.status(201).json({ message: "Contract created successfully", contractId: contract.id });
+
+    } catch (err) {
+        await t.rollback();
+        console.error(err);
+        res.status(500).json({ error: "Failed to create contract" });
+    }
+});
+
+router.put('/contracts/:id', async (req, res) => {
+    const contractId = req.params.id;
+    const userId = req.session?.user?.id;
+
+    if (!userId) {
+        return res.status(401).json({ message: "Niste prijavljeni" });
+    }
+
+    const {
+        subject,
+        conclusionDate,
+        expirationDate,
+        conditions,
+        status,
+        supplierId,
+        purpose,
+        deliveryDate,
+        deliveryStatus,
+        items // format: [{ productName, quantity, cost }]
+    } = req.body;
+
+    const t = await Contract.sequelize.transaction();
+
+    try {
+        const contract = await Contract.findByPk(contractId, {
+            include: {
+                model: Delivery,
+                include: [Invoice]
+            },
+            transaction: t
+        });
+
+        if (!contract) {
+            await t.rollback();
+            return res.status(404).json({ message: "Ugovor nije pronađen" });
+        }
+
+        // 1. Ažuriraj osnovne informacije o ugovoru
+        await contract.update({
+            subject,
+            conclusionDate,
+            expirationDate,
+            conditions,
+            status,
+            supplierId
+        }, { transaction: t });
+
+        // 2. Dodaj novu verziju u Modification
+        const existingMods = await contract.getModifications({ transaction: t });
+        const nextVersion = `v${existingMods.length + 1}`;
+
+        await Modification.create({
+            modificationDate: new Date(),
+            description: purpose || "Contract modification",
+            version: nextVersion,
+            contractId: contract.id,
+            userId: userId
+        }, { transaction: t });
+
+        // 3. Ažuriraj Delivery
+        const delivery = contract.Deliveries?.[0];
+        if (!delivery) {
+            await t.rollback();
+            return res.status(400).json({ message: "Isporuka nije pronađena za ugovor." });
+        }
+
+        await delivery.update({
+            deliveryDate,
+            status: deliveryStatus
+        }, { transaction: t });
+
+        // 4. Ažuriraj Invoice i InvoiceItems
+        const invoice = delivery.Invoice;
+        if (!invoice) {
+            await t.rollback();
+            return res.status(400).json({ message: "Faktura nije pronađena za isporuku." });
+        }
+
+        // Briši stare stavke
+        await InvoiceItems.destroy({ where: { invoiceId: invoice.id }, transaction: t });
+
+        // Dodaj nove stavke i izračunaj totalAmount
+        let totalAmount = 0;
+
+        for (const item of items) {
+            await InvoiceItems.create({
+                productName: item.productName,
+                quantity: item.quantity,
+                cost: item.cost,
+                invoiceId: invoice.id
+            }, { transaction: t });
+
+            totalAmount += item.quantity * item.cost;
+
+            // (opciono) napravi novi proizvod - ili ažuriraj postojeći po imenu
+            await Product.create({
+                name: item.productName,
+                description: "",
+                ingredients: "",
+                manufacturer: contract.supplierId,
+                expirationDate: new Date(),
+                price: item.cost,
+                quantity: item.quantity
+            }, { transaction: t });
+        }
+
+        await invoice.update({ totalAmount }, { transaction: t });
+
+        await t.commit();
+        return res.status(200).json({ message: "Ugovor uspješno ažuriran." });
+
+    } catch (err) {
+        await t.rollback();
+        console.error(err);
+        return res.status(500).json({ message: "Greška prilikom ažuriranja ugovora." });
+    }
+});
+
+
+router.get("/contracts/:id", async (req, res) => {
+    try {
+        const contract = await Contract.findByPk(req.params.id, {
+            include: [
+                {
+                    model: Supplier,
+                    as: "Supplier"
+                },
+                {
+                    model: Delivery,
+                    include: {
+                        model: Invoice,
+                        include: InvoiceItems
+                    }
+                }
+            ]
+        });
+
+        if (!contract) {
+            return res.status(404).json({ message: "Contract not found" });
+        }
+
+        res.json({ contract });
+    } catch (error) {
+        console.error("Error fetching contract:", error);
+        res.status(500).json({ message: "Server error" });
+    }
+});
+
+
 
 module.exports = router;
