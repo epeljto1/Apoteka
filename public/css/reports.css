@@ -37,8 +37,12 @@ tr:hover {
     background-color: #f1f1f1;
 }
 
-#generateReportBtn, 
-#downloadReportBtn{
+#generateReportBtn-promet, 
+#downloadReportBtn-promet,
+#generateReportBtn-contracts,
+#downloadReportBtn-contracts,
+#generateReportBtn-deliveries,
+#downloadReportBtn-deliveries{
     background-color: #4CAF50;
     color: white;
     padding: 10px 20px;
@@ -58,3 +62,19 @@ button{
 #generateReportBtn button:hover {
     background-color: #45a049;
 }
+.report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .report-table th,
+  .report-table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  .report-table th {
+    background-color: #f0f0f0;
+  }
