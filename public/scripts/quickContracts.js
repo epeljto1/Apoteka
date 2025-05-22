@@ -37,15 +37,17 @@ document.addEventListener('DOMContentLoaded', () => {
           row.innerHTML = `
             <td>${product.name}</td>
             <td>
-              <select>
+              <select class ="supplierSelectOption">
                 <option value="">-- Odaberi --</option>
                 ${supplierOptions}
               </select>
             </td>
+
             <td>${product.quantity}</td>
             <td>${product.price.toFixed(2)} KM</td>
-            <td><input type="number" value="0" min="0" /></td>
-            <td><input type="number" value="${info.latestCost}" min="0" step="0.01" /></td>
+
+            <td><input class="inputsFields" type="number" value="0" min="0" /></td>
+            <td><input class="inputsFields" type="number" value="${info.latestCost}" min="0" step="0.01" /></td>
             <td><input type="checkbox" /></td>
           `;
 
@@ -81,15 +83,15 @@ document.addEventListener('DOMContentLoaded', () => {
             row.innerHTML = `
                 <td>${product.name}</td>
                 <td>
-                <select>
+                <select class ="supplierSelectOption">
                     <option value="">-- Odaberi --</option>
                     ${supplierOptions}
                 </select>
                 </td>
                 <td>${product.quantity}</td>
                 <td>${product.price.toFixed(2)} KM</td>
-                <td><input type="number" value="0" min="0" /></td>
-                <td><input type="number" value="${info.latestCost}" min="0" step="0.01" /></td>
+                <td><input class="inputsFields" type="number" value="0" min="0" /></td>
+                <td><input class="inputsFields" type="number" value="${info.latestCost}" min="0" step="0.01" /></td>
                 <td><input type="checkbox" /></td>
             `;
             tableBody.appendChild(row);

@@ -1,0 +1,52 @@
+#contractType{
+    height: 30px;
+    font-size: 15px;
+    border: 1px solid #3532329f;
+    border-radius: 3px;
+    padding: 5px;
+}
+
+.supplierSelectOption{
+    padding: 5px;
+    width: 100%;
+    font-size: 15px;
+    border: 0px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.inputsFields{
+    font-size: 15px;
+    text-align: center;
+    border: 1px solid #ccc;
+    padding: 5px;
+    border-radius: 5px;
+
+}
+
+
+.toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #38a169; /* zelena */
+    color: white;
+    padding: 16px 24px;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    opacity: 0;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: translateY(20px);
+    z-index: 9999;
+}
+
+
+.toast.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.toast.hidden {
+    display: none;
+}
