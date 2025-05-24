@@ -19,7 +19,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         supplierSelect.appendChild(option);
                     });
                 } else {
-                    console.error("Greška pri učitavanju dobavljača.");
+                    console.error("Error loading supplier.");
                 }
             }
         };

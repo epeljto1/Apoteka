@@ -24,26 +24,26 @@ document.addEventListener('DOMContentLoaded', async () => {
 
             invoicesContainer.innerHTML += `
                 <div class="invoice">
-                    <h3>Faktura #${invoice.id}</h3>
+                    <h3>Invoice #${invoice.id}</h3>
                     <div class="invoice-header">
-                        <h4>Apoteke Sarajevo</h4>
-                        <p>Datum izdavanja: ${formattedDate}</p>
+                        <h4>Pharmacy Health</h4>
+                        <p>Release Date: ${formattedDate}</p>
                     </div>
                     <table class="invoice-table">
                         <thead>
                             <tr>
-                                <th>Lijek</th>
-                                <th>Cijena (KM)</th>
-                                <th>Količina</th>
-                                <th>Ukupno (KM)</th>
+                                <th>Medication</th>
+                                <th>Price (KM)</th>
+                                <th>Quantity</th>
+                                <th>Total (KM)</th>
                             </tr>
                         </thead>
                         <tbody>
                             ${tableRows}
                         </tbody>
                     </table>
-                    <p class="total-amount">Ukupan iznos: <strong>${invoice.totalAmount.toFixed(2)} KM</strong></p>
-                    <button class="printInvoice" data-invoice-id="${invoice.id}">Printaj fakturu</button>
+                    <p class="total-amount">Total Amount: <strong>${invoice.totalAmount.toFixed(2)} KM</strong></p>
+                    <button class="printInvoice" data-invoice-id="${invoice.id}">Print Invoice</button>
                 </div>
             `;
         });
@@ -57,7 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
 
     } else {
-        alert(data.message || 'Greška pri dohvaćanju faktura.');
+        alert(data.message || 'Failed to retrieve invoices.');
     }
 });
 
@@ -72,15 +72,15 @@ document.getElementById('downloadAllInvoices').addEventListener('click', () => {
         const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 
         doc.setFontSize(14);
-        doc.text(`Faktura #${invoice.id}`, 14, y);
+        doc.text(`Invoice #${invoice.id}`, 14, y);
         y += 6;
         doc.setFontSize(12);
-        doc.text(`Datum izdavanja: ${formattedDate}`, 14, y);
+        doc.text(`Release Date: ${formattedDate}`, 14, y);
         y += 10;
 
         doc.autoTable({
             startY: y,
-            head: [['Lijek', 'Cijena (KM)', 'Količina', 'Ukupno (KM)']],
+            head: [['Medication', 'Price (KM)', 'Quantity', 'Total (KM)']],
             body: invoice.SalesInvoiceItems.map(item => [
                 item.Product.name,
                 item.Product.price.toFixed(2),
@@ -92,7 +92,7 @@ document.getElementById('downloadAllInvoices').addEventListener('click', () => {
         });
 
         y = doc.lastAutoTable.finalY + 10;
-        doc.text(`Ukupan iznos: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
+        doc.text(`Total Amount: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
         y += 20;
 
         // Ako smo blizu kraja stranice, dodaj novu stranicu
@@ -102,5 +102,5 @@ document.getElementById('downloadAllInvoices').addEventListener('click', () => {
         }
     });
 
-    doc.save('sve_fakture.pdf');
+    doc.save('all_invoices.pdf');
 });

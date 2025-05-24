@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const data = await response.json();
 
         if (!Array.isArray(data.products)) {
-          alert('Greška prilikom dohvaćanja proizvoda.');
+          alert('Error loading product.');
           return;
         }
 
@@ -32,13 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
           const supplierOptions = info.suppliers.length > 0
             ? info.suppliers.map(supplier => `<option value="${supplier}">${supplier}</option>`).join('')
-            : `<option value="">-- Nema dobavljača --</option>`;
+            : `<option value="">-- No suppliers found --</option>`;
 
           row.innerHTML = `
             <td>${product.name}</td>
             <td>
               <select class ="supplierSelectOption">
-                <option value="">-- Odaberi --</option>
+                <option value="">-- Choose --</option>
                 ${supplierOptions}
               </select>
             </td>
@@ -55,8 +55,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
       } catch (error) {
-        console.error('Greška:', error);
-        alert('Greška prilikom komunikacije sa serverom.');
+        console.error('Error:', error);
+        alert('Error communicating with the server.');
       }
     }
     else if (contractType === 'bestsellers') {
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const data = await response.json();
 
             if (!Array.isArray(data.products)) {
-            alert('Greška prilikom dohvaćanja najprodavanijih proizvoda.');
+            alert('Error loading top selling products.');
             return;
             }
 
@@ -78,13 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const supplierOptions = info.suppliers.length > 0
                 ? info.suppliers.map(supplier => `<option value="${supplier}">${supplier}</option>`).join('')
-                : `<option value="">-- Nema dobavljača --</option>`;
+                : `<option value="">-- No suppliers found --</option>`;
 
             row.innerHTML = `
                 <td>${product.name}</td>
                 <td>
                 <select class ="supplierSelectOption">
-                    <option value="">-- Odaberi --</option>
+                    <option value="">-- Choose --</option>
                     ${supplierOptions}
                 </select>
                 </td>
@@ -98,8 +98,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
 
         } catch (error) {
-            console.error('Greška kod dohvaćanja bestsellers:', error);
-            alert('Greška prilikom komunikacije sa serverom.');
+            console.error('Error loading bestsellers:', error);
+            alert('Error communicating with the server.');
         }
         } 
     else {
@@ -134,7 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (Object.keys(selectedItemsBySupplier).length === 0) {
-      alert('Niste odabrali nijedan proizvod sa ispravnim podacima.');
+      alert('You have not selected any product with correct information.');
       return;
     }
 
@@ -155,12 +155,12 @@ document.addEventListener('DOMContentLoaded', () => {
       for (const [supplierName, items] of Object.entries(selectedItemsBySupplier)) {
         const supplierId = supplierMap[supplierName];
         if (!supplierId) {
-          alert(`Nepoznat dobavljač: ${supplierName}`);
+          alert(`Supplier Unknown: ${supplierName}`);
           continue;
         }
 
         const payload = {
-          subject: "Brzi ugovor",
+          subject: "Quick Contract",
           conclusionDate,
           expirationDate,
           conditions: "",
@@ -178,16 +178,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
 
         if (!resp.ok) {
-          console.error(`Greška za dobavljača ${supplierName}`);
+          console.error(`Error for supplier ${supplierName}`);
         }
       }
 
-      showToast('Ugovori uspješno formirani.');
+      showToast('Contracts formed successfully.');
       setTimeout(() => location.reload(), 3200);
 
     } catch (err) {
-      console.error('Greška prilikom kreiranja ugovora:', err);
-      alert('Greška prilikom kreiranja ugovora.');
+      console.error('Error creating contract:', err);
+      alert('Error creating contract.');
     }
   });
 });
@@ -202,11 +202,11 @@ async function fetchSupplierInfo(productNames) {
       body: JSON.stringify({ productNames })
     });
 
-    if (!response.ok) throw new Error('Greška pri dohvaćanju podataka o dobavljačima.');
+    if (!response.ok) throw new Error('Error loading supplier data.');
 
     return await response.json();
   } catch (error) {
-    console.error('Greška u fetchSupplierInfo:', error);
+    console.error('Error in fetchSupplierInfo:', error);
     return {};
   }
 }

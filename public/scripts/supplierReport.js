@@ -5,14 +5,14 @@ document.getElementById('generateReportBtn').addEventListener('click', async () 
       });
   
       if (!response.ok) {
-        throw new Error('Greška pri generisanju izvještaja');
+        throw new Error('Error generating report.');
       }
   
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'izvjestaj-dobavljaci.pdf';
+      a.download = 'report-suppliers.pdf';
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -28,7 +28,7 @@ document.getElementById('generateReportBtn').addEventListener('click', async () 
     const data = await response.json();
     renderTable(data);
   } catch (error) {
-    console.error('Greška pri dohvaćanju podataka:', error);
+    console.error('Error retrieving data:', error);
   }
 });
 
@@ -43,15 +43,15 @@ function renderTable(suppliers) {
   thead.innerHTML = `
     <tr>
       <th>Rbr</th>
-      <th>Naziv</th>
-      <th>Adresa</th>
-      <th>Ugovori</th>
-      <th>Aktivni</th>
-      <th>Na čekanju</th>
-      <th>Ispunjeni</th>
-      <th>Raskinuti</th>
-      <th>Uspješne isporuke</th>
-      <th>Neuspješne isporuke</th>
+      <th>Name</th>
+      <th>Address</th>
+      <th>Contracts</th>
+      <th>Active</th>
+      <th>On Hold</th>
+      <th>Completed</th>
+      <th>Terminated</th>
+      <th>Successful Deliveries</th>
+      <th>Unsuccessful Deliveries</th>
     </tr>
   `;
   table.appendChild(thead);

@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     );
 
     if (filtered.length === 0) {
-        searchResults.innerHTML = '<p>Nema rezultata.</p>';
+        searchResults.innerHTML = '<p>No results.</p>';
         return;
     }
 
@@ -45,14 +45,14 @@ document.addEventListener('DOMContentLoaded', async () => {
         div.style.color = (isOutOfStock || isExpired) ? '#888' : '#000';
 
         let statusText = '';
-        if (isOutOfStock) statusText = '<span style="color:red;">Nema na stanju</span>';
-        else if (isExpired) statusText = `<span style="color:red;">Istekao rok: ${formatDate(new Date(product.expirationDate))}</span>`;
+        if (isOutOfStock) statusText = '<span style="color:red;">Out of stock</span>';
+        else if (isExpired) statusText = `<span style="color:red;">Expired: ${formatDate(new Date(product.expirationDate))}</span>`;
 
         div.innerHTML = `
-            <strong>${product.name}</strong> ${product.price} KM (Dostupno: ${product.quantity})<br>
+            <strong>${product.name}</strong> ${product.price} KM (Available: ${product.quantity})<br>
             ${statusText || `
                 <input type="number" min="1" max="${product.quantity}" value="1" id="qty_${product.id}" style="width:60px;">
-                <button type="button" onclick="addToCart(${product.id})">Dodaj</button>
+                <button type="button" onclick="addToCart(${product.id})">Add</button>
             `}
         `;
         searchResults.appendChild(div);
@@ -80,7 +80,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         cartContainer.innerHTML = '';
 
         if (cart.length === 0) {
-            cartContainer.innerHTML = '<p>Korpa je prazna.</p>';
+            cartContainer.innerHTML = '<p>Cart is empty.</p>';
             return;
         }
 
@@ -89,7 +89,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             div.innerHTML = `
                 ${item.product.name}  ${item.quantity} x ${item.product.price.toFixed(2)} KM =
                 ${(item.quantity * item.product.price).toFixed(2)} KM
-                <button onclick="removeFromCart(${index})">Ukloni</button>
+                <button onclick="removeFromCart(${index})">Remove</button>
             `;
             cartContainer.appendChild(div);
         });
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }));
 
         if (items.length === 0) {
-            alert('Korpa je prazna. Dodajte barem jedan lijek.');
+            alert('The cart is empty. Add at least one medication.');
             return;
         }
 
@@ -136,26 +136,26 @@ document.addEventListener('DOMContentLoaded', async () => {
             `).join('');
 
             document.getElementById('invoiceResult').innerHTML = `
-                <h3>Faktura #${invoice.id}</h3>
+                <h3>Invoice #${invoice.id}</h3>
                 <div class="invoice-header">
-                    <h4>Apoteke Sarajevo</h4>
-                    <p>Datum izdavanja: ${formattedDate}</p>
+                    <h4>Pharmacy Health</h4>
+                    <p>Release Date: ${formattedDate}</p>
                 </div>
                 <table class="invoice-table">
                     <thead>
                         <tr>
-                            <th>Lijek</th>
-                            <th>Cijena (KM)</th>
-                            <th>Količina</th>
-                            <th>Ukupno (KM)</th>
+                            <th>Medication</th>
+                            <th>Price (KM)</th>
+                            <th>Quantity</th>
+                            <th>Total (KM)</th>
                         </tr>
                     </thead>
                     <tbody>
                         ${tableRows}
                     </tbody>
                 </table>
-                <p class="total-amount">Ukupan iznos: <strong>${invoice.totalAmount.toFixed(2)} KM</strong></p>
-                <button id="printInvoice">Printaj fakturu</button>
+                <p class="total-amount">Total Amount: <strong>${invoice.totalAmount.toFixed(2)} KM</strong></p>
+                <button id="printInvoice">Print Invoice</button>
             `;
 
             document.getElementById('printInvoice').addEventListener('click', () => {
@@ -163,14 +163,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 const doc = new jsPDF();
 
                 doc.setFontSize(16);
-                doc.text("Apoteke Sarajevo", 14, 22);
+                doc.text("Pharmacy Health", 14, 22);
                 doc.setFontSize(12);
                 doc.text(`Datum izdavanja: ${formattedDate}`, 14, 30);
 
                 let y = 40;
                 doc.autoTable({
                     startY: y,
-                    head: [['Lijek', 'Cijena (KM)', 'Kolicina', 'Ukupno (KM)']],
+                    head: [['Medication', 'Price (KM)', 'Quantity', 'Total (KM)']],
                     body: items.map(item => [
                         item.product.name,
                         item.product.price.toFixed(2),
@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
 
                 y = doc.lastAutoTable.finalY + 10;
-                doc.text(`Ukupan iznos: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
-                doc.save(`faktura_${invoice.id}.pdf`);
+                doc.text(`Total Amount: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
+                doc.save(`invoice_${invoice.id}.pdf`);
                 document.getElementById('invoiceResult').innerHTML = '';
             });
 
@@ -198,7 +198,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             searchInput.value = '';
             searchResults.innerHTML = '';
         } else {
-            alert(result.message || 'Greška pri obradi prodaje.');
+            alert(result.message || 'Error processing sale.');
         }
     });
 });

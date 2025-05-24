@@ -3,26 +3,26 @@ document.addEventListener('DOMContentLoaded', async () => {
     const supplierId = params.get('id');
 
     if (!supplierId) {
-        document.getElementById('supplierDetails').innerHTML = '<p>Dobavljač nije pronađen.</p>';
+        document.getElementById('supplierDetails').innerHTML = '<p>Supplier not found.</p>';
         return;
     }
 
     try {
         const response = await fetch(`/api/suppliers/${supplierId}`);
-        if (!response.ok) throw new Error('Greška pri dohvatu dobavljača.');
+        if (!response.ok) throw new Error('Error retrieving supplier.');
 
         const data = await response.json();
         const supplier = data.supplier;
 
         document.getElementById('supplierDetails').innerHTML = `
             <h2>${supplier.name}</h2>
-            <p><strong>Kontakt broj:</strong> ${supplier.contactNumber}</p>
+            <p><strong>Contact number:</strong> ${supplier.contactNumber}</p>
             <p><strong>Email:</strong> ${supplier.email}</p>
-            <p><strong>Adresa:</strong> ${supplier.address}</p>
-            <p><strong>Web stranica:</strong> <a href="${supplier.website}" target="_blank">${supplier.website}</a></p>
+            <p><strong>Address:</strong> ${supplier.address}</p>
+            <p><strong>Website:</strong> <a href="${supplier.website}" target="_blank">${supplier.website}</a></p>
         `;
     } catch (error) {
-        console.error('Greška:', error);
-        document.getElementById('supplierDetails').innerHTML = '<p>Greška pri učitavanju podataka.</p>';
+        console.error('Error:', error);
+        document.getElementById('supplierDetails').innerHTML = '<p>Error loading data.</p>';
     }
 });

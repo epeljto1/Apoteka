@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             suppliers = data.suppliers;
             displaySuppliers(suppliers);
         } catch (error) {
-            console.error('Greška pri učitavanju dobavljača:', error);
+            console.error('Error loading supplier:', error);
         }
     }
 
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         suppliersTableBody.innerHTML = '';
 
         if (suppliersList.length === 0) {
-            suppliersTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">Nema dobavljača.</td></tr>';
+            suppliersTableBody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No suppliers found.</td></tr>';
             return;
         }
 
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Funkcija za brisanje dobavljača
     window.deleteSupplier = async function (supplierId) {
-        if (!confirm('Da li ste sigurni da želite obrisati ovog dobavljača?')) {
+        if (!confirm('Are you sure you want to delete this supplier?')) {
             return;
         }
 
@@ -68,14 +68,14 @@ document.addEventListener('DOMContentLoaded', async () => {
                 // Uspješno obrisano - osvježi prikaz
                 suppliers = suppliers.filter(s => s.id !== supplierId);
                 displaySuppliers(suppliers);
-                alert('Dobavljač uspješno obrisan.');
+                alert('Supplier deleted successfully.');
             } else {
                 const errorData = await response.json();
-                alert(errorData.message || 'Greška pri brisanju.');
+                alert(errorData.message || 'Error deleting');
             }
         } catch (error) {
-            console.error('Greška pri brisanju dobavljača:', error);
-            alert('Greška pri brisanju.');
+            console.error('Error deleting supplier:', error);
+            alert('Error deleting.');
         }
     };
 
@@ -122,15 +122,15 @@ document.addEventListener('DOMContentLoaded', async () => {
                 suppliers.push(result.supplier);
                 displaySuppliers(suppliers);
                 addSupplierModal.style.display = 'none';
-                alert('Dobavljač uspješno dodat.');
+                alert('Supplier added successfully.');
                 addSupplierForm.reset();
             } else {
                 const errorData = await response.json();
-                alert(errorData.message || 'Greška pri dodavanju.');
+                alert(errorData.message || 'Error adding.');
             }
         } catch (error) {
-            console.error('Greška pri dodavanju dobavljača:', error);
-            alert('Greška pri dodavanju.');
+            console.error('Error adding supplier:', error);
+            alert('Error adding.');
         }
     });
 });
