@@ -15,12 +15,12 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.getElementById('supplierDetails').innerHTML = `
             <form id="updateSupplierForm">
-                <label>Naziv:</label><input name="name" value="${supplier.name}" required><br>
-                <label>Kontakt broj:</label><input name="contactNumber" value="${supplier.contactNumber}" required><br>
+                <label>Name:</label><input name="name" value="${supplier.name}" required><br>
+                <label>Contact number:</label><input name="contactNumber" value="${supplier.contactNumber}" required><br>
                 <label>Email:</label><input name="email" value="${supplier.email}" required><br>
-                <label>Adresa:</label><input name="address" value="${supplier.address}" required><br>
-                <label>Web stranica:</label><input name="website" value="${supplier.website}" required><br>
-                <button type="submit">Ažuriraj</button>
+                <label>Address:</label><input name="address" value="${supplier.address}" required><br>
+                <label>Website:</label><input name="website" value="${supplier.website}" required><br>
+                <button type="submit">Update</button>
             </form>
             <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Uspješno ažurirano!</div>
         `;
