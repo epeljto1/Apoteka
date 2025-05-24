@@ -30,9 +30,10 @@
             
             <label for="status">Status:</label>    
             <select id="status" name="status" required>
-                <option value="active">Active</option>
-                <option value="expired">Expired</option>
-                <option value="terminated">Terminated</option>
+            <option value="Active">Active</option>
+            <option value="Completed">Completed</option>
+            <option value="Pending">Pending</option>
+            <option value="Failed">Failed</option>
             </select>
             
             
@@ -43,11 +44,12 @@
             <input type="date" id="deliveryDate" name="deliveryDate" required>
             <label for="deliveryStatus">Delivery Status:</label>
             
-            <select id="deliveryStatus" name="deliveryStatus" required>
-                <option value="pending">Pending</option>
-                <option value="processing">Processing</option>
-                <option value="delivered">Delivered</option>
-            </select>
+      <select id="deliveryStatus" name="deliveryStatus" required>
+            <option value="Finished">Finished</option>
+            <option value="Active">Active</option>
+            <option value="Incomplete">Incomplete</option>
+            <option value="Suspended">Suspended</option>
+        </select>
             
             
             <h3>Contract items</h3>

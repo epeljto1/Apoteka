@@ -146,7 +146,6 @@ router.post('/contracts', async (req, res) => {
         }, { transaction: t });
 
         for (const item of items) {
-            // Dodavanje stavke u fakturu
             await InvoiceItems.create({
                 productName: item.productName,
                 quantity: item.quantity,
@@ -154,18 +153,15 @@ router.post('/contracts', async (req, res) => {
                 invoiceId: invoice.id
             }, { transaction: t });
 
-            // Provera da li proizvod već postoji
             let existingProduct = await Product.findOne({
                 where: { name: item.productName },
                 transaction: t
             });
 
             if (existingProduct) {
-                // Ako postoji, uvećaj quantity
                 existingProduct.quantity += item.quantity;
                 await existingProduct.save({ transaction: t });
             } else {
-                // Ako ne postoji, kreiraj novi proizvod
                 await Product.create({
                     name: item.productName,
                     description: "",        
