@@ -167,7 +167,7 @@ document.addEventListener('DOMContentLoaded', () => {
           status: "Active",
           supplierId,
           deliveryDate: expirationDate,
-          deliveryStatus: "Processing",
+          deliveryStatus: "Active",
           items
         };
 
