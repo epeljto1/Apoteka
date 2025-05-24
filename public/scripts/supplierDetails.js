@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <label>Website:</label><input name="website" value="${supplier.website}" required><br>
                 <button type="submit">Update</button>
             </form>
-            <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Uspješno ažurirano!</div>
+            <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Successfully updated!</div>
         `;
 
         document.getElementById('updateSupplierForm').addEventListener('submit', async (e) => {
