@@ -11,18 +11,52 @@ document.addEventListener('DOMContentLoaded', async () => {
         const response = await fetch(`/api/suppliers/${supplierId}`);
         if (!response.ok) throw new Error('Greška pri dohvatu dobavljača.');
 
-        const data = await response.json();
-        const supplier = data.supplier;
+        const { supplier } = await response.json();
 
         document.getElementById('supplierDetails').innerHTML = `
-            <h2>${supplier.name}</h2>
-            <p><strong>Kontakt broj:</strong> ${supplier.contactNumber}</p>
-            <p><strong>Email:</strong> ${supplier.email}</p>
-            <p><strong>Adresa:</strong> ${supplier.address}</p>
-            <p><strong>Web stranica:</strong> <a href="${supplier.website}" target="_blank">${supplier.website}</a></p>
+            <form id="updateSupplierForm">
+                <label>Naziv:</label><input name="name" value="${supplier.name}" required><br>
+                <label>Kontakt broj:</label><input name="contactNumber" value="${supplier.contactNumber}" required><br>
+                <label>Email:</label><input name="email" value="${supplier.email}" required><br>
+                <label>Adresa:</label><input name="address" value="${supplier.address}" required><br>
+                <label>Web stranica:</label><input name="website" value="${supplier.website}" required><br>
+                <button type="submit">Ažuriraj</button>
+            </form>
+            <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Uspješno ažurirano!</div>
         `;
+
+        document.getElementById('updateSupplierForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const body = {};
+            formData.forEach((value, key) => body[key] = value);
+
+            const updateResponse = await fetch(`/api/suppliers/${supplierId}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(body)
+            });
+
+            if (updateResponse.ok) {
+                showToast();
+            } else {
+                alert('Greška pri ažuriranju.');
+            }
+        });
+
     } catch (error) {
         console.error('Greška:', error);
         document.getElementById('supplierDetails').innerHTML = '<p>Greška pri učitavanju podataka.</p>';
     }
 });
+
+function showToast() {
+    const toast = document.getElementById('toast');
+    toast.style.display = 'block';
+    setTimeout(() => {
+        toast.style.display = 'none';
+    }, 3000);
+}

@@ -3,6 +3,7 @@ const router = express.Router();
 const { Supplier, Contract, Delivery } = require('../models');
 const { sequelize } = require('../config/db');
 const { Op } = require('sequelize');
+const db = require('../models');
 const PDFDocument = require('pdfkit');
 
 router.get('/suppliers', async (req, res) => {
@@ -237,6 +238,24 @@ router.post('/suppliers', async (req, res) => {
     } catch (error) {
         console.error('Greška pri dodavanju dobavljača:', error);
         res.status(500).json({ message: 'Greška na serveru.' });
+    }
+});
+
+router.put('/suppliers/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        const updatedData = req.body;
+
+        const supplier = await db.Supplier.findByPk(id);
+        if (!supplier) {
+            return res.status(404).json({ message: 'Dobavljač nije pronađen.' });
+        }
+
+        await supplier.update(updatedData);
+        res.json({ message: 'Dobavljač uspješno ažuriran.' });
+    } catch (error) {
+        console.error('Greška pri ažuriranju dobavljača:', error);
+        res.status(500).json({ message: 'Došlo je do greške na serveru.' });
     }
 });
 
