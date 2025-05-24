@@ -120,3 +120,27 @@ label{
 #reportsTable-deliveries{
     visibility: hidden;
 }
+.transposed-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    margin-top: 20px;
+}
+
+.transposed-table th,
+.transposed-table td {
+    text-align: left;
+    padding: 12px;
+    border: 1px solid #ddd;
+}
+
+.transposed-table th {
+    background-color: #4CAF50;
+    color: white;
+    width: 200px;
+}
+
+.transposed-table tr:hover {
+    background-color: #f1f1f1;
+}

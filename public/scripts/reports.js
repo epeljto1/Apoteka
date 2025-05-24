@@ -182,43 +182,45 @@ document.addEventListener('DOMContentLoaded', async () => {
             reportsTableBody.appendChild(tr);
         });
     }
-
     function displayContractsReport(report) {
         reportsTableBodyContracts.innerHTML = '';
         document.getElementById("reportsTable-contracts").style.visibility = "visible";
     
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${report.totalContracts}</td>
-            <td>${report.fulfilled}</td>
-            <td>${report.terminated}</td>
-            <td>${report.inactive}</td>
-            <td>${report.active}</td>
-            <td>${report.changes}</td>
-        `;
+        const data = [
+            { label: "Total", value: report.totalContracts },
+            { label: "Completed", value: report.completed },
+            { label: "Failed", value: report.failed },
+            { label: "Pending", value: report.pending },
+            { label: "Active", value: report.active },
+            { label: "Changes", value: report.changes }
+        ];
     
-        reportsTableBodyContracts.appendChild(row);
+        data.forEach(item => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <th>${item.label}</th>
+                <td>${item.value}</td>
+            `;
+            reportsTableBodyContracts.appendChild(row);
+        });
     }
+    
 
     function displayDeliveriesReport(report) {
         console.log('Prikazujem izvještaj o isporukama:', report);
-        reportsTableBodyDeliveries.innerHTML = '';
+    
         document.getElementById("reportsTable-deliveries").style.visibility = "visible";
-
-
     
-        const row = document.createElement('tr');
-        row.innerHTML = `
-            <td>${report.totalDeliveries}</td>
-            <td>${report.izvršena}</td>
-            <td>${report.nepotpuna}</td>
-            <td>${report.obustavljena}</td>
-            <td>${report.aktivna}</td>
-            <td>${report.ukupnoUplaceno.toFixed(2)}</td>
-        `;
+        const rows = document.querySelectorAll('#reportsTable-deliveries tbody tr');
     
-        reportsTableBodyDeliveries.appendChild(row);
+        rows[0].children[1].textContent = report.totalDeliveries;
+        rows[1].children[1].textContent = report.finished;
+        rows[2].children[1].textContent = report.incomplete;
+        rows[3].children[1].textContent = report.suspended;
+        rows[4].children[1].textContent = report.active;
+        rows[5].children[1].textContent = report.ukupnoUplaceno.toFixed(2);
     }
+    
  
 });
 
