@@ -50,4 +50,29 @@ router.get('/api/deliverydetails', async (req, res) => {
     }
 });
 
+
+router.put('/api/delivery/:id', async (req, res) => {
+    const deliveryId = req.params.id;
+    const { deliveryDate, status } = req.body;
+
+    try {
+        const delivery = await Delivery.findByPk(deliveryId);
+
+        if (!delivery) {
+            return res.status(404).json({ error: 'Delivery not found' });
+        }
+
+        delivery.deliveryDate = deliveryDate ?? delivery.deliveryDate;
+        delivery.status = status ?? delivery.status;
+
+        await delivery.save();
+
+        res.json({ message: 'Delivery updated successfully', delivery });
+    } catch (error) {
+        console.error('Error updating delivery:', error);
+        res.status(500).json({ error: 'Error updating delivery' });
+    }
+});
+
+
 module.exports = router;

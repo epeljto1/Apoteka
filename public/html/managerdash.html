@@ -5,20 +5,76 @@
     <title>Manager Dashboard</title>
     <link rel="stylesheet" href="../css/managerdash.css">
     <link rel="stylesheet" href="../css/sidebar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   </head>
 
   <body>
 
     <h1 style="text-align:center; ">Welcome, Manager!</h1>
+    
 
     <div id="meni" class="sidenav">
       <a href="/deliveries">Deliveries</a>
       <a href="/suppliers">Suppliers</a>
       <a href="/contracts">Contracts</a>
-      <a href="/quickcontracts">Quick Contracts</a>
+      <a href="/quickcontracts">Quick contracts</a>
       <a href="/reports">Reports</a>
       <a href="/login">Log out</a>
     </div>
+
+
+    <div id="frame">
+      <div class="quick-actions">
+        <h2>⚡ Quick actions</h2>
+        <hr>
+
+        <div class="action-list">
+        
+          <a href="/suppliers" class="action-btn">
+            <i class="fas fa-truck"></i>
+            <span class="action-label">New supplier</span>
+          </a>
+
+        
+         <a href="/contracts/create" class="action-btn"> 
+            <i class="fas fa-file-signature"></i>
+            <span class="action-label">New contract</span>
+         </a>
+          
+          
+  
+        </div>
+      </div>
+      
+      
+      
+      <section class="deliveries-section">
+        <h2>Danasnje isporuke</h2>
+        <div class="cards-container">
+          <div class="delivery-card">
+            <p><strong>Broj isporuke:</strong> #12345</p>
+            <p><strong>Datum:</strong> 23.05.2025</p>
+            <p><strong>Naziv:</strong> Električni alati</p>
+          </div>
+          
+        <div class="delivery-card">
+          <p><strong>Broj isporuke:</strong> #12345</p>
+          <p><strong>Datum:</strong> 23.05.2025</p>
+          <p><strong>Naziv:</strong> Električni alati</p>
+        </div>
+        
+        <div class="delivery-card">
+          <p><strong>Broj isporuke:</strong> #12345</p>
+          <p><strong>Datum:</strong> 23.05.2025</p>
+          <p><strong>Naziv:</strong> Električni alati</p>
+        </div>
+  </div>
+</section>
+
+    </div>
+
+   
+
 
     <script src="scripts/managerDashboard.js"></script>
 

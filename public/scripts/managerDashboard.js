@@ -28,3 +28,14 @@ document.addEventListener("DOMContentLoaded", () => {
         AjaxUsers.logoutManager();
     });
 });
+
+
+ document.addEventListener("DOMContentLoaded", () => {
+    const buttons = document.querySelectorAll(".action-btn");
+        
+    buttons.forEach((btn, index) => {
+        setTimeout(() => {
+        btn.classList.add("show");
+    }, index * 200); // svako dugme se prikazuje sa malim zakašnjenjem
+    });
+});
