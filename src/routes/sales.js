@@ -7,7 +7,7 @@ router.post('/sell', async (req, res) => {
     const { items } = req.body;
 
     if (!items || !Array.isArray(items) || items.length === 0) {
-        return res.status(400).json({ message: 'Nisu poslani validni artikli.' });
+        return res.status(400).json({ message: 'No valid items were submitted..' });
     }
 
     try {
@@ -18,7 +18,7 @@ router.post('/sell', async (req, res) => {
             const product = await Product.findByPk(item.productId);
 
             if (!product || product.quantity < item.quantity) {
-                return res.status(400).json({ message: `Nedovoljno zaliha za ${product?.name || 'nepoznat proizvod'}.` });
+                return res.status(400).json({ message: `Insufficient stock for ${product?.name || 'unknown item'}.` });
             }
 
             totalAmount += product.price * item.quantity;
@@ -43,7 +43,7 @@ router.post('/sell', async (req, res) => {
         }
 
         res.status(200).json({
-            message: 'Prodaja uspješna!',
+            message: 'Sale successful!',
             invoice: {
                 id: invoice.id,
                 totalAmount: invoice.totalAmount,
@@ -57,8 +57,8 @@ router.post('/sell', async (req, res) => {
             }
         });
     } catch (err) {
-        console.error('Greška pri prodaji:', err);
-        res.status(500).json({ message: 'Greška pri evidentiranju prodaje.' });
+        console.error('Sale error:', err);
+        res.status(500).json({ message: 'Error recording sales.' });
     }
 });
 

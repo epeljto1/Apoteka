@@ -136,11 +136,11 @@ router.get('/suppliers/report', async (req, res) => {
       const doc = new PDFDocument({ margin: 30, size: 'A4' });
   
       res.setHeader('Content-Type', 'application/pdf');
-      res.setHeader('Content-Disposition', 'attachment; filename=izvjestaj_dobavljaci.pdf');
+      res.setHeader('Content-Disposition', 'attachment; filename=report-suppliers.pdf');
       doc.pipe(res);
   
       // Naslov
-      doc.fontSize(18).text('Izvještaj o dobavljacima', { align: 'center' });
+      doc.fontSize(18).text('Supplier Report', { align: 'center' });
       doc.moveDown();
   
       // Tabela
@@ -167,8 +167,8 @@ router.get('/suppliers/report', async (req, res) => {
   
       // Zaglavlje
       drawTableRow(doc, tableTop, [
-        'Rbr', 'Naziv', 'Adresa', 'Ugovori', 'Aktivni', 'Na čekanju',
-        'Ispunjeni', 'Raskinuti', 'Uspješne isporuke', 'Neuspješne isporuke'
+        'Rbr', 'Name', 'Address', 'Contracts', 'Active', 'On hold',
+        'Completed', 'Terminated', 'Succ deliveries', 'Unsucc deliveries'
       ], true);
   
       // Redovi
@@ -187,8 +187,8 @@ router.get('/suppliers/report', async (req, res) => {
           doc.addPage();
           y = tableTop;
           drawTableRow(doc, y, [
-            'Rbr', 'Naziv', 'Adresa', 'Ugov.', 'Akt.', 'Neakt.',
-            'Uspj. ug.', 'Neuspj. ug.', 'Uspj. isp.', 'Neuspj. isp.'
+            'Rbr', 'Name', 'Address', 'Contracts', 'Act.', 'Inact.',
+            'Succ. con.', 'Unsucc. con.', 'Succ. del.', 'Unsucc. del.'
           ], true);
           y += rowHeight;
         }
@@ -197,8 +197,8 @@ router.get('/suppliers/report', async (req, res) => {
       doc.end();
   
     } catch (err) {
-      console.error('Greška pri kreiranju izvještaja:', err);
-      res.status(500).json({ message: 'Greška na serveru.' });
+      console.error('Error creating report:', err);
+      res.status(500).json({ message: 'Server error.' });
     }
   });
 
@@ -208,13 +208,13 @@ router.get('/suppliers/:id', async (req, res) => {
         const supplier = await Supplier.findByPk(id);
 
         if (!supplier) {
-            return res.status(404).json({ message: 'Dobavljač nije pronađen.' });
+            return res.status(404).json({ message: 'Supplier not found.' });
         }
 
         res.json({ supplier });
     } catch (error) {
-        console.error('Greška pri dohvatu dobavljača:', error);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error loading supplier:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
@@ -222,7 +222,7 @@ router.post('/suppliers', async (req, res) => {
     const { name, contactNumber, email, address, website } = req.body;
 
     if (!name || !contactNumber || !email || !address || !website) {
-        return res.status(400).json({ message: 'Sva polja su obavezna.' });
+        return res.status(400).json({ message: 'All fields are required.' });
     }
 
     try {
@@ -236,8 +236,8 @@ router.post('/suppliers', async (req, res) => {
 
         res.status(201).json({ supplier: newSupplier });
     } catch (error) {
-        console.error('Greška pri dodavanju dobavljača:', error);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error loading supplier:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
@@ -248,14 +248,14 @@ router.put('/suppliers/:id', async (req, res) => {
 
         const supplier = await db.Supplier.findByPk(id);
         if (!supplier) {
-            return res.status(404).json({ message: 'Dobavljač nije pronađen.' });
+            return res.status(404).json({ message: 'Supplier not found.' });
         }
 
         await supplier.update(updatedData);
-        res.json({ message: 'Dobavljač uspješno ažuriran.' });
+        res.json({ message: 'Supplier successfully updated.' });
     } catch (error) {
-        console.error('Greška pri ažuriranju dobavljača:', error);
-        res.status(500).json({ message: 'Došlo je do greške na serveru.' });
+        console.error('Error updating supplier:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
