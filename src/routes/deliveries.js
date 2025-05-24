@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { Delivery, Invoice, InvoiceItems } = require('../models');
+const db = require('../models'); // putanja prema tvom db objektu
+const { Op } = require('sequelize');
+
 
 router.get('/alldeliveries', async (req, res) => {
     try {
@@ -73,6 +76,47 @@ router.put('/api/delivery/:id', async (req, res) => {
         res.status(500).json({ error: 'Error updating delivery' });
     }
 });
+
+
+
+router.get('/api/todays-deliveries', async (req, res) => {
+  try {
+    const today = new Date();
+    const start = new Date(today.setHours(0, 0, 0, 0));
+    const end = new Date(today.setHours(23, 59, 59, 999));
+
+    const deliveries = await db.Delivery.findAll({
+      where: {
+        deliveryDate: {
+          [Op.between]: [start, end]
+        }
+      },
+      include: [
+        {
+          model: db.Contract,
+          include: [db.Supplier]
+        },
+        {
+          model: db.Invoice,
+          include: [db.InvoiceItems]
+        }
+      ]
+    });
+
+    const response = deliveries.map(delivery => ({
+      id: delivery.id,
+      deliveryDate: delivery.deliveryDate,
+      supplierName: delivery.Contract?.Supplier?.name || 'Nepoznat',
+      products: delivery.Invoice?.InvoiceItems?.map(item => item.productName) || []
+    }));
+
+    res.json(response);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Greška prilikom dohvaćanja isporuka.' });
+  }
+});
+
 
 
 module.exports = router;

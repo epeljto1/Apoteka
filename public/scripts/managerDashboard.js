@@ -1,3 +1,35 @@
+document.addEventListener("DOMContentLoaded", async () => {
+  const container = document.querySelector(".cards-container");
+  container.innerHTML = ""; // očisti primjere
+
+  try {
+    const response = await fetch("/todays-deliveries");
+    console.log(response);
+    const deliveries = await response.json();
+    
+    deliveries.forEach(delivery => {
+      const card = document.createElement("div");
+      card.classList.add("delivery-card");
+
+      card.innerHTML = `
+        <p><strong>Delivery number:</strong> #${delivery.id}</p>
+        <p><strong>Date:</strong> ${new Date(delivery.deliveryDate).toLocaleDateString()}</p>
+        <p><strong>Supplier:</strong> ${delivery.supplierName}</p>
+        <p><strong>Products:</strong> ${delivery.products.join(", ") || "No items"}</p>
+      `;
+
+      container.appendChild(card);
+    });
+
+    if (deliveries.length === 0) {
+      container.innerHTML = "<p>No deliveries for today.</p>";
+    }
+  } catch (err) {
+    console.error("Greška:", err);
+    container.innerHTML = "<p>Greška prilikom dohvaćanja podataka.</p>";
+  }
+});
+
 const AjaxUsers = (() => {
     function impl_Logout() {
         const xhttp = new XMLHttpRequest();
@@ -21,6 +53,7 @@ const AjaxUsers = (() => {
     };
 })();
 
+/*
 
 document.addEventListener("DOMContentLoaded", () => {
 
@@ -28,6 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
         AjaxUsers.logoutManager();
     });
 });
+*/
 
 
  document.addEventListener("DOMContentLoaded", () => {
@@ -39,3 +73,5 @@ document.addEventListener("DOMContentLoaded", () => {
     }, index * 200); // svako dugme se prikazuje sa malim zakašnjenjem
     });
 });
+
+
