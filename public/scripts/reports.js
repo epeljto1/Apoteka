@@ -68,7 +68,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             reports = data.report;
             displayReports(reports);
         } catch (error) {
-            console.error('Greška pri učitavanju izvještaja:', error);
+            console.error('Error loading reports:', error);
         }
     }
          
@@ -92,11 +92,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     displayReports(data.report);
                 } else {
-                    alert(data.message || 'Došlo je do greške pri dohvaćanju izvještaja.');
+                    alert(data.message || 'There was an error loading the report..');
                 }
             } catch (err) {
-                console.error('Greška pri izvještaju o prometu:', err);
-                alert('Greška pri izvještaju o prometu.');
+                console.error('Traffic report error:', err);
+                alert('Traffic report error.');
             }
         }
         
@@ -118,11 +118,11 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (response.ok) {
                     displayContractsReport(data.report);
                 } else {
-                    alert(data.message || 'Došlo je do greške pri dohvaćanju izvještaja.');
+                    alert(data.message || 'There was an error loading the report.');
                 }
             } catch (err) {
-                console.error('Greška pri izvještaju o ugovorima:', err);
-                alert('Greška pri izvještaju o ugovorima.');
+                console.error('Contracts report error:', err);
+                alert('Contracts report error.');
             }
         }
         if (type === 'deliveries') {
@@ -141,16 +141,16 @@ document.addEventListener('DOMContentLoaded', async () => {
                 });
     
                 const data = await response.json();
-                console.log("Odgovor sa servera:", data);
+                console.log("Server response:", data);
     
                 if (response.ok) {
                     displayDeliveriesReport(data.report);
                 } else {
-                    alert(data.message || 'Došlo je do greške pri dohvaćanju izvještaja.');
+                    alert(data.message || 'There was an error loading the report..');
                 }
             } catch (err) {
-                console.error('Greška pri izvještaju o isporukama:', err);
-                alert('Greška pri izvještaju o isporukama.');
+                console.error('Delivery report error:', err);
+                alert('Delivery report error.');
             }
         }
         if(type === 'suppliers'){
@@ -166,7 +166,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         document.getElementById("reportsTable-promet").style.visibility = "visible";        
 
         if (reportsList.length === 0) {
-            reportsTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Nema rezultata za odabrani period.</td></tr>';
+            reportsTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">There are no results for the selected period.</td></tr>';
             return;
         }
 
@@ -230,7 +230,7 @@ window.downloadPDF = function (reportType) {
 
 
     if (!startDate || !endDate) {
-        alert('Molimo unesite oba datuma.');
+        alert('Please enter both dates..');
         return;
     }
 
@@ -243,7 +243,7 @@ window.downloadPDF = function (reportType) {
     })
     .then(response => {
         if (!response.ok) {
-            throw new Error('Neuspješno generisanje PDF-a.');
+            throw new Error('Failed to generate PDF.');
         }
         return response.blob();
     })
@@ -251,13 +251,13 @@ window.downloadPDF = function (reportType) {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = `${reportType}-izvjestaj.pdf`;
+        a.download = `${reportType}-report.pdf`;
         document.body.appendChild(a);
         a.click();
         a.remove();
     })
     .catch(error => {
-        console.error('Greška pri preuzimanju PDF-a:', error);
-        alert('Greška pri preuzimanju PDF izvještaja.');
+        console.error('Error downloading PDF:', error);
+        alert('Error downloading PDF report.');
     });
 }

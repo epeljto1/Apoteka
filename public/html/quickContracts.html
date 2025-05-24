@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Brze narudžbe</title>
+    <title>Quick Contrats</title>
     <link rel="stylesheet" href="../css/reports.css" />
     <link rel="stylesheet" href="../css/sidebar.css" />
     <link rel="stylesheet" href="../css/quickContracts.css" />
@@ -10,7 +10,7 @@
   </head>
 
   <body>
-    <h1 style="text-align: center;">Automatsko generisanje ugovora</h1>
+    <h1 style="text-align: center;">Automatic Contract Generation</h1>
 
     <div id="meni" class="sidenav">
       <a href="/deliveries">Deliveries</a>
@@ -22,28 +22,28 @@
     </div>
 
     <div style="margin-left:220px; padding:20px;">
-      <label for="contractType">Izaberi tip narudžbe:</label>
+      <label for="contractType">Choose Order Type:</label>
 
       <select id="contractType">
-        <option value="">Selektujte tip narudžbe</option>
-        <option value="expiring">Narudžba lijekova s kritičnim rokom trajanja</option>
-        <option value="bestsellers">Narudžba najprodavanijih lijekova</option>
+        <option value="">Select Order Type</option>
+        <option value="expiring">Ordering medicines with a critical expiration date</option>
+        <option value="bestsellers">Ordering the best-selling medicines</option>
       </select>
 
-      <button id="generateReportBtn">Pošalji narudžbe</button>
+      <button id="generateReportBtn">Send Orders</button>
       <br>
       <br>
 
       <table id="quickContractsTable">
         <thead>
           <tr>
-            <th>Naziv lijeka</th>
-            <th>Dobavljač</th>
-            <th>Trenutna količina</th>
-            <th>Prodajna cijena</th>
-            <th>Nabavna količina</th>
-            <th>Nabavna cijena</th>
-            <th>Naručiti</th>
+            <th>Medication Name</th>
+            <th>Supplier</th>
+            <th>Current Quantity</th>
+            <th>Selling Price</th>
+            <th>Purchase Quantity</th>
+            <th>Purchase Price</th>
+            <th>Order</th>
           </tr>
         </thead>
 
@@ -56,6 +56,6 @@
     <script src="../scripts/quickContracts.js"></script>
   </body>
 
-  <div id="toast" class="toast hidden">Ugovori uspješno formirani.</div>
+  <div id="toast" class="toast hidden">Contracts successfully formed.</div>
     
 </html>

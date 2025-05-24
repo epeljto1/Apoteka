@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     try {
         const response = await fetch(`/api/suppliers/${supplierId}`);
-        if (!response.ok) throw new Error('Greška pri dohvatu dobavljača.');
+        if (!response.ok) throw new Error('Error loading supplier.');
 
         const { supplier } = await response.json();
 
@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 <label>Website:</label><input name="website" value="${supplier.website}" required><br>
                 <button type="submit">Update</button>
             </form>
-            <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Uspješno ažurirano!</div>
+            <div id="toast" style="display:none; background: #4CAF50; color:white; padding:10px; margin-top:10px; border-radius:5px;">Successfully updated!</div>
         `;
 
         document.getElementById('updateSupplierForm').addEventListener('submit', async (e) => {
@@ -43,13 +43,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             if (updateResponse.ok) {
                 showToast();
             } else {
-                alert('Greška pri ažuriranju.');
+                alert('Update error.');
             }
         });
 
     } catch (error) {
-        console.error('Greška:', error);
-        document.getElementById('supplierDetails').innerHTML = '<p>Greška pri učitavanju podataka.</p>';
+        console.error('Error:', error);
+        document.getElementById('supplierDetails').innerHTML = '<p>Error loading data.</p>';
     }
 });
 

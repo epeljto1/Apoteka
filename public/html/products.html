@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Pregled evidencije lijekova</title>
+        <title>Medication Record Overview</title>
         <link rel="stylesheet" href="../css/products.css">
         <link rel="stylesheet" href="../css/sidebar.css">
     </head>
@@ -19,46 +19,46 @@
 
 
         <header>
-            <h1>Pregled evidencije lijekova</h1>
+            <h1>Medication Record Overview</h1>
         </header>
         
         <div class="container">
             <div class="search-form">
                 
-                <h2>Pretraži lijekove</h2>
+                <h2>Search Medications</h2>
                 <form id="searchForm">
                     <div class="form-group">
-                        <label for="name">Naziv lijeka:</label>
+                        <label for="name">Medication Name:</label>
                         <input type="text" id="name" name="name">
                     </div>
                     
                     <div class="form-group">
-                        <label for="manufacturer">Proizvođač:</label>
+                        <label for="manufacturer">Manufacturer:</label>
                         <input type="text" id="manufacturer" name="manufacturer">
                     </div>
             
                     <div class="form-group">
-                        <label for="minPrice">Minimalna cijena:</label>
+                        <label for="minPrice">Minimum Price:</label>
                         <input type="number" step="0.01" id="minPrice" name="minPrice">
                     </div>
             
                     <div class="form-group">    
-                        <label for="maxPrice">Maksimalna cijena:</label>
+                        <label for="maxPrice">Maximum Price:</label>
                         <input type="number" step="0.01" id="maxPrice" name="maxPrice">
                     </div>
 
                     <div class="form-group">
-                        <label for="expirationDateFrom">Datum isteka (od):</label>
+                        <label for="expirationDateFrom">Expiration Date (from):</label>
                         <input type="date" id="expirationDateFrom" name="expirationDateFrom">
                     </div>
 
                     <div class="form-group">
-                        <label for="expirationDateTo">Datum isteka (do):</label>
+                        <label for="expirationDateTo">Expiration Date (to):</label>
                         <input type="date" id="expirationDateTo" name="expirationDateTo">
                     </div>
 
                     <div class="form-group">
-                        <button type="submit">Pretraži</button>
+                        <button type="submit">Search</button>
                     </div>
                 </form>
             </div>

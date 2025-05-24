@@ -2,14 +2,14 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8">
-    <title>Evidencija dobavljača</title>
+    <title>Generating Reports</title>
     <link rel="stylesheet" href="../css/reports.css"> 
     <link rel="stylesheet" href="../css/sidebar.css">
     <link rel="stylesheet" href="../css/supplierReport.css">
   </head>
 
   <body>
-    <h1 style="text-align: center;">Generisanje izvještaja</h1>
+    <h1 style="text-align: center;">Generating Reports</h1>
 
     <div id="meni" class="sidenav">
       <a href="/deliveries">Deliveries</a>
@@ -21,13 +21,13 @@
     </div>
 
     <div style="margin-left:220px; padding:20px;">
-        <label for="reportType">Izaberite tip izvještaja:</label>
+        <label for="reportType">Select Report Type:</label>
         <select id="reportType">
-            <option  value="">Neselektovan tip izvještaja</option>
-            <option value="promet">Najprodavaniji lijek</option>
-            <option value="suppliers">Dobavljači</option>
-            <option value="contracts">Ugovori</option>
-            <option value="deliveries">Isporuke</option>
+            <option  value="">Unselected Report Type</option>
+            <option value="promet">Best-Selling Medication</option>
+            <option value="suppliers">Suppliers</option>
+            <option value="contracts">Contracts</option>
+            <option value="deliveries">Deliveries</option>
         </select>
 
         <br>
@@ -35,27 +35,27 @@
         <br>
         
         <div id="report-promet" class="report-section" style="display:none;">
-          <label for="startDate-promet">Od datuma:</label>
+          <label for="startDate-promet">From Date:</label>
           <input type="date" id="startDate-promet">
           <br>
 
-          <label for="endDate-promet">Do datuma:</label>
+          <label for="endDate-promet">To Date:</label>
           <input type="date" id="endDate-promet">
           <br>
          
-          <button id="generateReportBtn-promet">Prikaži izvještaj</button>
-          <button id="downloadReportBtn-promet" onclick="downloadPDF('promet')" >Preuzmi izvještaj</button>
+          <button id="generateReportBtn-promet">Show Report</button>
+          <button id="downloadReportBtn-promet" onclick="downloadPDF('promet')" >Download Report</button>
           <br>
           <br>
           
           <table id="reportsTable-promet">
             <thead>
               <tr>
-                <th>Naziv</th>
-                <th>Proizvođač</th>
-                <th>Cijena</th>
-                <th>Količina</th>
-                <th>Zarada</th>
+                <th>Name</th>
+                <th>Supplier</th>
+                <th>Price</th>
+                <th>Quantity</th>
+                <th>Profit</th>
               </tr>
             </thead>
         
@@ -65,16 +65,16 @@
         </div>
         
         <div id="report-contracts" class="report-section" style="display:none;">
-          <label for="startDate-contracts">Od datuma:</label>
+          <label for="startDate-contracts">From Date:</label>
           <input type="date" id="startDate-contracts">
           <br>
 
-          <label for="endDate-contracts">Do datuma:</label>
+          <label for="endDate-contracts">To Date:</label>
           <input type="date" id="endDate-contracts">
           <br>
 
-          <button id="generateReportBtn-contracts">Prikaži izvještaj</button>
-          <button id="downloadReportBtn-contracts" onclick="downloadPDF('contracts')" >Preuzmi izvještaj</button>
+          <button id="generateReportBtn-contracts">Show Report</button>
+          <button id="downloadReportBtn-contracts" onclick="downloadPDF('contracts')" >Download Report</button>
           <br>
           <br>
         
@@ -120,16 +120,16 @@
         </div>
         
         <div id="report-deliveries" class="report-section" style="display:none;">
-          <label for="startDate-deliveries">Od datuma:</label>
+          <label for="startDate-deliveries">From Date:</label>
           <input type="date" id="startDate-deliveries">
           <br>
           
-          <label for="endDate-deliveries">Do datuma:</label>
+          <label for="endDate-deliveries">To Date:</label>
           <input type="date" id="endDate-deliveries">
           <br>
 
-          <button id="generateReportBtn-deliveries">Prikaži izvještaj</button>
-          <button id="downloadReportBtn-deliveries" onclick="downloadPDF('deliveries')" >Preuzmi izvještaj</button>
+          <button id="generateReportBtn-deliveries">Show Report</button>
+          <button id="downloadReportBtn-deliveries" onclick="downloadPDF('deliveries')" >Download Report</button>
           <br>
           <br>
     
@@ -175,8 +175,8 @@
         </div>
 
         <div id="report-suppliers" class="report-section" style="display: none;">
-          <button id="showTableBtn">Prikaži izvještaj</button>
-          <button id="generateReportBtn" onclick="downloadPDF('supplierReport')" >Preuzmi izvještaj</button>
+          <button id="showTableBtn">Show Report</button>
+          <button id="generateReportBtn" onclick="downloadPDF('supplierReport')" >Download Report</button>
           <br>
           <br>
           <div id="reportTableContainer">

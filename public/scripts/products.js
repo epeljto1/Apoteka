@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             if (data.products && data.products.length > 0) {
                 displayProducts(data.products);
             } else {
-                document.getElementById('productList').innerHTML = '<p>Nema rezultata za pretragu.</p>';
+                document.getElementById('productList').innerHTML = '<p>No results for search.</p>';
             }
         } catch (err) {
             console.error('Error fetching products:', err);
@@ -50,7 +50,7 @@ async function loadProducts() {
         if (data.products && data.products.length > 0) {
             displayProducts(data.products);
         } else {
-            document.getElementById('productList').innerHTML = '<p>Nema proizvoda u bazi.</p>';
+            document.getElementById('productList').innerHTML = '<p>No products in the database.</p>';
         }
     } catch (err) {
         console.error('Error fetching products:', err);
@@ -67,12 +67,12 @@ function displayProducts(products) {
 
         productItem.innerHTML = `
             <h3>${product.name}</h3>
-            <p><span>Proizvođač:</span> ${product.manufacturer}</p>
-            <p><span>Opis:</span> ${product.description}</p>
-            <p><span>Sastojci:</span> ${product.ingredients}</p>
-            <p><span>Cijena:</span> ${product.price} KM</p>
-            <p><span>Količina:</span> ${product.quantity}</p>
-            <p><span>Rok trajanja:</span> ${new Date(product.expirationDate).toLocaleDateString('hr-HR')}</p>
+            <p><span>Manufacturer:</span> ${product.manufacturer}</p>
+            <p><span>Description:</span> ${product.description}</p>
+            <p><span>Ingredients:</span> ${product.ingredients}</p>
+            <p><span>Price:</span> ${product.price} KM</p>
+            <p><span>Quantity:</span> ${product.quantity}</p>
+            <p><span>Expiration Date:</span> ${new Date(product.expirationDate).toLocaleDateString('hr-HR')}</p>
         `;
         productList.appendChild(productItem);
     });
