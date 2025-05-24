@@ -15,10 +15,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         document.getElementById('supplierDetails').innerHTML = `
             <form id="updateSupplierForm">
-                <label>Name:</label><input name="name" value="${supplier.name}" required><br>
-                <label>Contact number:</label><input name="contactNumber" value="${supplier.contactNumber}" required><br>
-                <label>Email:</label><input name="email" value="${supplier.email}" required><br>
-                <label>Address:</label><input name="address" value="${supplier.address}" required><br>
+                <label>Name:</label><input name="name" value="${supplier.name}" required>
+                <label>Contact number:</label><input name="contactNumber" value="${supplier.contactNumber}" required>
+                <label>Email:</label><input name="email" value="${supplier.email}" required>
+                <label>Address:</label><input name="address" value="${supplier.address}" required>
                 <label>Website:</label><input name="website" value="${supplier.website}" required><br>
                 <button type="submit">Update</button>
             </form>
