@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
   } catch (err) {
     console.error("Greška:", err);
-    container.innerHTML = "<p>Greška prilikom dohvaćanja podataka.</p>";
+    container.innerHTML = "<p>Error fetching data.</p>";
   }
 });
 

@@ -79,7 +79,7 @@ router.put('/api/delivery/:id', async (req, res) => {
 
 
 
-router.get('/api/todays-deliveries', async (req, res) => {
+router.get('/todays-deliveries', async (req, res) => {
   try {
     const today = new Date();
     const start = new Date(today.setHours(0, 0, 0, 0));
