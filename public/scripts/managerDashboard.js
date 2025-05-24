@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       card.classList.add("delivery-card");
 
       card.innerHTML = `
-        <p><strong>Delivery number:</strong> #${delivery.id}</p>
+        <p><strong>Delivery number:</strong> ${delivery.id}</p>
         <p><strong>Date:</strong> ${new Date(delivery.deliveryDate).toLocaleDateString()}</p>
         <p><strong>Supplier:</strong> ${delivery.supplierName}</p>
         <p><strong>Products:</strong> ${delivery.products.join(", ") || "No items"}</p>

@@ -7,6 +7,7 @@ body {
 
 h1{
     margin-bottom: 0px;
+    color: white;
 }
 
 #contractForm{
@@ -113,4 +114,19 @@ textarea{
     
 #backButton:hover{
     background-color: rgba(245, 187, 148, 0.619);
+}
+
+
+#shape{
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 95%;
+    height: 50%;
+    background-color: #3b99fd;/*#27548ac3;*/
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+    z-index: -1;
+
 }
