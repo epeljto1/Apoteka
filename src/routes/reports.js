@@ -105,9 +105,9 @@ function normalizeStatus(status) {
     const normalized = status.toLowerCase();
 
     if (['aktivan', 'active'].includes(normalized)) return 'active';
-    if (['neaktivan', 'inactive', 'pending'].includes(normalized)) return 'inactive';
-    if (['uspješno okončan', 'fulfilled'].includes(normalized)) return 'fulfilled';
-    if (['neuspješno okončan', 'raskinut', 'terminated'].includes(normalized)) return 'terminated';
+    if (['neaktivan', 'inactive', 'pending'].includes(normalized)) return 'pending';
+    if (['uspješno okončan', 'fulfilled', 'finished', 'completed'].includes(normalized)) return 'completed';
+    if (['neuspješno okončan', 'raskinut', 'terminated', 'failed'].includes(normalized)) return 'failed';
 
     return 'other';
 }
@@ -127,9 +127,9 @@ router.post('/reports/contracts', async (req, res) => {
         const contracts = await db.Contract.findAll({ where });
         const report = {
             totalContracts: contracts.length,
-            fulfilled: contracts.filter(c => normalizeStatus(c.status) === 'fulfilled').length,
-            terminated: contracts.filter(c => normalizeStatus(c.status) === 'terminated').length,
-            inactive: contracts.filter(c => normalizeStatus(c.status) === 'inactive').length,
+            completed: contracts.filter(c => normalizeStatus(c.status) === 'completed').length,
+            failed: contracts.filter(c => normalizeStatus(c.status) === 'failed').length,
+            pending: contracts.filter(c => normalizeStatus(c.status) === 'pending').length,
             active: contracts.filter(c => normalizeStatus(c.status) === 'active').length,
             changes: contracts.reduce((sum, c) => sum + (c.numberOfChanges || 0), 0)
         };
@@ -290,9 +290,9 @@ router.post('/reports/contracts/download-pdf', async (req, res) => {
 
         const report = {
             totalContracts: contracts.length,
-            fulfilled: contracts.filter(c => normalizeStatus(c.status) === 'fulfilled').length,
-            terminated: contracts.filter(c => normalizeStatus(c.status) === 'terminated').length,
-            inactive: contracts.filter(c => normalizeStatus(c.status) === 'inactive').length,
+            completed: contracts.filter(c => normalizeStatus(c.status) === 'completed').length,
+            failed: contracts.filter(c => normalizeStatus(c.status) === 'failed').length,
+            pending: contracts.filter(c => normalizeStatus(c.status) === 'pending').length,
             active: contracts.filter(c => normalizeStatus(c.status) === 'active').length,
             changes: contracts.reduce((sum, c) => sum + (c.numberOfChanges || 0), 0)
         };
@@ -316,17 +316,17 @@ router.post('/reports/contracts/download-pdf', async (req, res) => {
         // Tabela
         let y = doc.y;
 
-        drawKeyValueLine('Ukupan broj ugovora:', report.totalContracts, y, doc);
+        drawKeyValueLine('Total:', report.totalContracts, y, doc);
         y += 20;
-        drawKeyValueLine('Ispunjeni:', report.fulfilled, y, doc);
+        drawKeyValueLine('Completed:', report.completed, y, doc);
         y += 20;
-        drawKeyValueLine('Raskinuti:', report.terminated, y, doc);
+        drawKeyValueLine('Failed:', report.failed, y, doc);
         y += 20;
-        drawKeyValueLine('Neaktivni:', report.inactive, y, doc);
+        drawKeyValueLine('Pending:', report.pending, y, doc);
         y += 20;
-        drawKeyValueLine('Aktivni:', report.active, y, doc);
+        drawKeyValueLine('Active:', report.active, y, doc);
         y += 20;
-        drawKeyValueLine('Ukupan broj izmjena:', report.changes, y, doc);
+        drawKeyValueLine('Changes:', report.changes, y, doc);
 
 
         doc.moveDown(2);
@@ -371,18 +371,18 @@ router.post('/reports/deliveries', async (req, res) => {
         });
         const normalizeStatus = status => {
             const s = status.toLowerCase();
-            if (['finished', 'uspješna', 'shipped'].includes(s)) return 'izvršena';
-            if (['neuspješna', 'nepotpuna', 'failed'].includes(s)) return 'nepotpuna';
-            if (['terminated', 'obustavljena'].includes(s)) return 'obustavljena';
-            if (['processing', 'aktivna'].includes(s)) return 'aktivna';
+            if (['finished', 'uspješna', 'shipped', 'izvršena'].includes(s)) return 'finished';
+            if (['neuspješna', 'nepotpuna', 'failed', 'incomplete', 'nepotpune'].includes(s)) return 'incomplete';
+            if (['terminated', 'obustavljena', 'suspended'].includes(s)) return 'suspended';
+            if (['processing', 'aktivna', 'active'].includes(s)) return 'active';
             return 'nepoznato';
         };
         const report = {
             totalDeliveries: deliveries.length,
-            izvršena: deliveries.filter(d => normalizeStatus(d.status) === 'izvršena').length,
-            nepotpuna: deliveries.filter(d => normalizeStatus(d.status) === 'nepotpuna').length,
-            obustavljena: deliveries.filter(d => normalizeStatus(d.status) === 'obustavljena').length,
-            aktivna: deliveries.filter(d => normalizeStatus(d.status) === 'aktivna').length,
+            finished: deliveries.filter(d => normalizeStatus(d.status) === 'finished').length,
+            incomplete: deliveries.filter(d => normalizeStatus(d.status) === 'incomplete').length,
+            suspended: deliveries.filter(d => normalizeStatus(d.status) === 'suspended').length,
+            active: deliveries.filter(d => normalizeStatus(d.status) === 'active').length,
             ukupnoUplaceno: invoices.reduce((sum, inv) => sum + (inv.totalAmount || 0), 0)
         };
 
@@ -419,18 +419,18 @@ router.post('/reports/deliveries/download-pdf', async (req, res) => {
         });
         const normalizeStatus = status => {
             const s = status.toLowerCase();
-            if (['finished', 'uspješna', 'shipped'].includes(s)) return 'izvršena';
-            if (['neuspješna', 'nepotpuna', 'failed'].includes(s)) return 'nepotpuna';
-            if (['terminated', 'obustavljena'].includes(s)) return 'obustavljena';
-            if (['processing', 'aktivna'].includes(s)) return 'aktivna';
+            if (['finished', 'uspješna', 'shipped', 'izvršena'].includes(s)) return 'finished';
+            if (['neuspješna', 'nepotpuna', 'failed'].includes(s)) return 'incomplete';
+            if (['terminated', 'obustavljena', 'suspended'].includes(s)) return 'suspended';
+            if (['processing', 'aktivna', 'active'].includes(s)) return 'active';
             return 'nepoznato';
         };
         const report = {
             totalDeliveries: deliveries.length,
-            izvršena: deliveries.filter(d => normalizeStatus(d.status) === 'izvršena').length,
-            nepotpuna: deliveries.filter(d => normalizeStatus(d.status) === 'nepotpuna').length,
-            obustavljena: deliveries.filter(d => normalizeStatus(d.status) === 'obustavljena').length,
-            aktivna: deliveries.filter(d => normalizeStatus(d.status) === 'aktivna').length,
+            finished: deliveries.filter(d => normalizeStatus(d.status) === 'finished').length,
+            incomplete: deliveries.filter(d => normalizeStatus(d.status) === 'incomplete').length,
+            suspended: deliveries.filter(d => normalizeStatus(d.status) === 'suspended').length,
+            active: deliveries.filter(d => normalizeStatus(d.status) === 'active').length,
             ukupnoUplaceno: invoices.reduce((sum, inv) => sum + (inv.totalAmount || 0), 0)
         };
 
@@ -453,17 +453,17 @@ router.post('/reports/deliveries/download-pdf', async (req, res) => {
         // Tabela
         let y = doc.y;
 
-        drawKeyValueLine('Ukupan broj isporuka:', report.totalDeliveries, y, doc);
+        drawKeyValueLine('Total:', report.totalDeliveries, y, doc);
         y += 20;
-        drawKeyValueLine('Izvrseno:', report.izvršena, y, doc);
+        drawKeyValueLine('Finished:', report.finished, y, doc);
         y += 20;
-        drawKeyValueLine('Nepotpuno:', report.nepotpuna, y, doc);
+        drawKeyValueLine('Incomplete:', report.incomplete, y, doc);
         y += 20;
-        drawKeyValueLine('Obustavljeno:', report.obustavljena, y, doc);
+        drawKeyValueLine('Suspended:', report.suspended, y, doc);
         y += 20;
-        drawKeyValueLine('Aktivno:', report.aktivna, y, doc);
+        drawKeyValueLine('Active:', report.active, y, doc);
         y += 20;
-        drawKeyValueLine('Ukupan iznos:', report.ukupnoUplaceno, y, doc);
+        drawKeyValueLine('Total amount:', report.ukupnoUplaceno, y, doc);
 
 
         doc.moveDown(2);
