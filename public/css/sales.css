@@ -33,6 +33,7 @@ h2, h3, h4 {
 
 #searchResults button,
 #cartContainer button,
+#downloadAllInvoices,
 button[type="submit"],
 #printInvoice {
     background-color: #1e90ff;
@@ -43,6 +44,10 @@ button[type="submit"],
     cursor: pointer;
     margin-left: 10px;
     transition: background-color 0.2s ease;
+}
+
+#downloadAllInvoices{
+    margin-left: 220px;
 }
 
 #searchResults button:hover,

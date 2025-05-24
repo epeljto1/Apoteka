@@ -1,6 +1,8 @@
+let globalInvoices = [];
 document.addEventListener('DOMContentLoaded', async () => {
     const response = await fetch('/api/salesInvoices');
     const data = await response.json();
+    globalInvoices = data.invoices;
 
     if (response.ok) {
         const invoicesContainer = document.getElementById('invoicesContainer');
@@ -8,15 +10,15 @@ document.addEventListener('DOMContentLoaded', async () => {
         data.invoices.forEach(invoice => {
             const items = invoice.SalesInvoiceItems;
 
-            const date = new Date(invoice.date);
+            const date = new Date(invoice.issueDate);
             const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 
             const tableRows = items.map(item => `
                 <tr>
-                    <td>${item.product.name}</td>
-                    <td>${item.product.price.toFixed(2)} KM</td>
+                    <td>${item.Product.name}</td>
+                    <td>${item.Product.price.toFixed(2)} KM</td>
                     <td>${item.quantity}</td>
-                    <td>${(item.quantity * item.product.price).toFixed(2)} KM</td>
+                    <td>${(item.quantity * item.Product.price).toFixed(2)} KM</td>
                 </tr>
             `).join('');
 
@@ -59,36 +61,46 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
-function printInvoice(invoice) {
+document.getElementById('downloadAllInvoices').addEventListener('click', () => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF();
 
-    const items = invoice.SalesInvoiceItems;
+    let y = 20;
 
-    const date = new Date(invoice.date);
-    const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
+    globalInvoices.forEach((invoice, index) => {
+        const date = new Date(invoice.issueDate);
+        const formattedDate = `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}/${date.getFullYear()}`;
 
-    doc.setFontSize(16);
-    doc.text("Apoteke Sarajevo", 14, 22);
-    doc.setFontSize(12);
-    doc.text(`Datum izdavanja: ${formattedDate}`, 14, 30);
+        doc.setFontSize(14);
+        doc.text(`Faktura #${invoice.id}`, 14, y);
+        y += 6;
+        doc.setFontSize(12);
+        doc.text(`Datum izdavanja: ${formattedDate}`, 14, y);
+        y += 10;
 
-    let y = 40;
-    doc.autoTable({
-        startY: y,
-        head: [['Lijek', 'Cijena (KM)', 'Količina', 'Ukupno (KM)']],
-        body: items.map(item => [
-            item.product.name,
-            item.product.price.toFixed(2),
-            item.quantity,
-            (item.quantity * item.product.price).toFixed(2)
-        ]),
-        theme: 'striped',
-        columnStyles: { 0: { halign: 'left' }, 1: { halign: 'center' }, 2: { halign: 'center' }, 3: { halign: 'right' } }
+        doc.autoTable({
+            startY: y,
+            head: [['Lijek', 'Cijena (KM)', 'Količina', 'Ukupno (KM)']],
+            body: invoice.SalesInvoiceItems.map(item => [
+                item.Product.name,
+                item.Product.price.toFixed(2),
+                item.quantity,
+                (item.quantity * item.Product.price).toFixed(2)
+            ]),
+            theme: 'striped',
+            columnStyles: { 0: { halign: 'left' }, 1: { halign: 'center' }, 2: { halign: 'center' }, 3: { halign: 'right' } }
+        });
+
+        y = doc.lastAutoTable.finalY + 10;
+        doc.text(`Ukupan iznos: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
+        y += 20;
+
+        // Ako smo blizu kraja stranice, dodaj novu stranicu
+        if (y > 260 && index !== globalInvoices.length - 1) {
+            doc.addPage();
+            y = 20;
+        }
     });
 
-    y = doc.lastAutoTable.finalY + 10;
-    doc.text(`Ukupan iznos: ${invoice.totalAmount.toFixed(2)} KM`, 14, y);
-
-    doc.save(`faktura_${invoice.id}.pdf`);
-}
+    doc.save('sve_fakture.pdf');
+});
