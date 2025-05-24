@@ -2,3 +2,168 @@ body {
     font-family: Arial, sans-serif;
     background-color: #f9f9f9;
 }
+
+#frame{
+    margin-left: 15%;
+    margin-bottom: 3%;
+    padding:20px;
+    background-color: rgba(186, 178, 178, 0.214);
+    height: 1000px;
+    
+
+}
+
+
+.quick-actions {
+  padding: 20px;
+  background: #fff;
+  margin-top: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  margin-left: 900px;
+}
+
+.quick-actions h2 {
+  margin-bottom: 5px;
+}
+
+.action-buttons button {
+  margin: 8px;
+  padding: 12px 18px;
+  font-size: 16px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+button {
+  background-color: #007BFF;
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+
+.action-buttons button:hover {
+  background-color: #0056b3;
+}
+
+.action-buttons i {
+  font-size: 18px;
+}
+
+
+
+.quick-actions {
+  padding: 20px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  width: 250px;
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  background-color: #007BFF;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s ease;
+  text-decoration: none;
+}
+
+.action-btn i {
+  font-size: 20px;
+  margin-right: 10px;
+}
+
+.action-btn .action-label {
+  font-size: 16px;
+  white-space: nowrap;
+}
+
+/* Animacija kada se dashboard učita */
+.action-btn.show {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+
+
+
+
+.deliveries-section{
+    margin-left: 20%;
+    background-color: red;
+}
+
+.cards-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.delivery-card {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  padding: 15px;
+  border-radius: 8px;
+  width: 220px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+
+
+
+
+
+.contracts-expiring table {
+    margin-left: 20%;
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.contracts-expiring th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+
+
+
+
+
+
+.quick-actions button {
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  background-color: #007BFF;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.quick-actions button:hover {
+  background-color: #0056b3;
+}
+
