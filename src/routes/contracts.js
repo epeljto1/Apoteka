@@ -100,7 +100,7 @@ router.get('/contracts/:id/pdf', async (req, res) => {
     doc.end();
 });
 
-router.post('/contracts', async (req, res) => {
+router.post('/contracts', async (req, res) => { 
     const t = await Contract.sequelize.transaction();
 
     try {
@@ -116,13 +116,11 @@ router.post('/contracts', async (req, res) => {
             items
         } = req.body;
 
-        
         const supplier = await Supplier.findByPk(supplierId);
         if (!supplier) {
             return res.status(400).json({ message: "Dobavljač nije pronađen." });
         }
 
-        
         const contract = await Contract.create({
             subject,
             conclusionDate,
@@ -132,17 +130,14 @@ router.post('/contracts', async (req, res) => {
             supplierId
         }, { transaction: t });
 
-        
         const delivery = await Delivery.create({
             deliveryDate,
             status: deliveryStatus,
             contractId: contract.id
         }, { transaction: t });
 
-       
         const totalAmount = items.reduce((sum, item) => sum + item.cost * item.quantity, 0);
 
-        
         const invoice = await Invoice.create({
             issueDate: new Date(),
             totalAmount,
@@ -150,9 +145,8 @@ router.post('/contracts', async (req, res) => {
             deliveryId: delivery.id
         }, { transaction: t });
 
-        
         for (const item of items) {
-            
+            // Dodavanje stavke u fakturu
             await InvoiceItems.create({
                 productName: item.productName,
                 quantity: item.quantity,
@@ -160,16 +154,28 @@ router.post('/contracts', async (req, res) => {
                 invoiceId: invoice.id
             }, { transaction: t });
 
-            
-            await Product.create({
-                name: item.productName,
-                description: "",        
-                ingredients: "",        
-                manufacturer: supplier.name,  
-                expirationDate: new Date(),   
-                price: item.cost,
-                quantity: item.quantity
-            }, { transaction: t });
+            // Provera da li proizvod već postoji
+            let existingProduct = await Product.findOne({
+                where: { name: item.productName },
+                transaction: t
+            });
+
+            if (existingProduct) {
+                // Ako postoji, uvećaj quantity
+                existingProduct.quantity += item.quantity;
+                await existingProduct.save({ transaction: t });
+            } else {
+                // Ako ne postoji, kreiraj novi proizvod
+                await Product.create({
+                    name: item.productName,
+                    description: "",        
+                    ingredients: "",        
+                    manufacturer: supplier.name,  
+                    expirationDate: new Date(),   
+                    price: item.cost,
+                    quantity: item.quantity
+                }, { transaction: t });
+            }
         }
 
         await t.commit();
@@ -181,6 +187,7 @@ router.post('/contracts', async (req, res) => {
         res.status(500).json({ error: "Failed to create contract" });
     }
 });
+
 
 router.put('/contracts/:id', async (req, res) => {
     const contractId = req.params.id;
