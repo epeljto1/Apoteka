@@ -47,9 +47,9 @@ function renderTable(suppliers) {
       <th>Adresa</th>
       <th>Ugovori</th>
       <th>Aktivni</th>
-      <th>Neaktivni</th>
-      <th>Uspješno okončani</th>
-      <th>Neuspješno okončani</th>
+      <th>Na čekanju</th>
+      <th>Ispunjeni</th>
+      <th>Raskinuti</th>
       <th>Uspješne isporuke</th>
       <th>Neuspješne isporuke</th>
     </tr>
@@ -64,10 +64,10 @@ function renderTable(suppliers) {
       <td>${s.name}</td>
       <td>${s.address}</td>
       <td>${s.contractCount}</td>
-      <td>${s.aktivan}</td>
-      <td>${s.neaktivan}</td>
-      <td>${s.uspjesnoOkoncan}</td>
-      <td>${s.neuspjesnoOkoncan}</td>
+      <td>${s.active}</td>
+      <td>${s.pending}</td>
+      <td>${s.completed}</td>
+      <td>${s.failed}</td>
       <td>${s.uspjesneIsporuke}</td>
       <td>${s.neuspjesneIsporuke}</td>
     `;

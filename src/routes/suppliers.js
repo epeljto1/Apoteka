@@ -69,10 +69,10 @@ router.get('/suppliers/report', async (req, res) => {
         const contracts = supplier.Contracts;
   
         const statusCounts = {
-          aktivan: 0,
-          neaktivan: 0,
-          uspjesnookoncan: 0,
-          neuspjesnookoncan: 0,
+          active: 0,
+          pending: 0,
+          completed: 0,
+          failed: 0,
         };
   
         let uspjesneIsporuke = 0;
@@ -80,16 +80,26 @@ router.get('/suppliers/report', async (req, res) => {
   
         contracts.forEach(contract => {
           // Broji statuse ugovora
-          const statusKey = normalize(contract.status);
-          if (statusCounts.hasOwnProperty(statusKey)) {
-            statusCounts[statusKey]++;
+          const status = normalize(contract.status);
+
+          if (status === 'pending') {
+            statusCounts.pending++;
+          } else if (status === 'active') {
+            statusCounts.active++;
+          } else if (status === 'completed') {
+            statusCounts.completed++;
+          } else if (status === 'failed') {
+            statusCounts.failed++;
           }
   
           // Isporuke
           contract.Deliveries.forEach(delivery => {
             const stat = normalize(delivery.status);
-            if (stat === 'uspjesna') uspjesneIsporuke++;
-            else if (stat === 'neuspjesna') neuspjesneIsporuke++;
+            if (stat === 'finished') {
+              uspjesneIsporuke++;
+            } else if (stat === 'incomplete' || stat === 'suspended') {
+              neuspjesneIsporuke++;
+            }
           });
         });
   
@@ -97,10 +107,10 @@ router.get('/suppliers/report', async (req, res) => {
           name: supplier.name,
           address: supplier.address,
           contractCount: contracts.length,
-          aktivan: statusCounts.aktivan,
-          neaktivan: statusCounts.neaktivan,
-          uspjesnoOkoncan: statusCounts.uspjesnookoncan,
-          neuspjesnoOkoncan: statusCounts.neuspjesnookoncan,
+          active: statusCounts.active,
+          pending: statusCounts.pending,
+          completed: statusCounts.completed,
+          failed: statusCounts.failed,
           uspjesneIsporuke,
           neuspjesneIsporuke
         };
@@ -156,8 +166,8 @@ router.get('/suppliers/report', async (req, res) => {
   
       // Zaglavlje
       drawTableRow(doc, tableTop, [
-        'Rbr', 'Naziv', 'Adresa', 'Ugovori', 'Aktivni', 'Neaktivni',
-        'Uspješni', 'Neuspješni', 'Uspješne isporuke', 'Neuspješne isporuke'
+        'Rbr', 'Naziv', 'Adresa', 'Ugovori', 'Aktivni', 'Na čekanju',
+        'Ispunjeni', 'Raskinuti', 'Uspješne isporuke', 'Neuspješne isporuke'
       ], true);
   
       // Redovi
@@ -165,8 +175,8 @@ router.get('/suppliers/report', async (req, res) => {
       ranked.forEach((r, i) => {
         const row = [
           i + 1, r.name, r.address, r.contractCount,
-          r.aktivan, r.neaktivan, r.uspjesnoOkoncan,
-          r.neuspjesnoOkoncan, r.uspjesneIsporuke, r.neuspjesneIsporuke
+          r.active, r.pending, r.completed,
+          r.failed, r.uspjesneIsporuke, r.neuspjesneIsporuke
         ];
   
         drawTableRow(doc, y, row);
