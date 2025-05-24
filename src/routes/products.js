@@ -118,8 +118,8 @@ router.post('/products/supplier-info', async (req, res) => {
 
     res.json(results);
   } catch (err) {
-    console.error('Greška pri dohvaćanju dobavljača i cijena:', err);
-    res.status(500).json({ message: 'Greška na serveru.' });
+    console.error('Error loading supplier and price:', err);
+    res.status(500).json({ message: 'Server error.' });
   }
 });
 
@@ -169,8 +169,8 @@ router.get('/products/bestsellers', async (req, res) => {
     res.json({ products: result });
 
   } catch (error) {
-    console.error("Greška kod /bestsellers:", error);
-    res.status(500).json({ message: 'Greška kod dohvaćanja najprodavanijih lijekova.' });
+    console.error("Error /bestsellers:", error);
+    res.status(500).json({ message: 'Error loading best selled medicine.' });
   }
 });
 

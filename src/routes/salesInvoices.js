@@ -15,7 +15,7 @@ router.get('/salesInvoices', async (req, res) => {
         res.status(200).json({ invoices });
     } catch (err) {
         console.error(err);
-        res.status(500).json({ message: 'Greška pri dohvaćanju faktura.' });
+        res.status(500).json({ message: 'Error loading invoices.' });
     }
 });
 

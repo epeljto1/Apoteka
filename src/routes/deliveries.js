@@ -106,14 +106,14 @@ router.get('/todays-deliveries', async (req, res) => {
     const response = deliveries.map(delivery => ({
       id: delivery.id,
       deliveryDate: delivery.deliveryDate,
-      supplierName: delivery.Contract?.Supplier?.name || 'Nepoznat',
+      supplierName: delivery.Contract?.Supplier?.name || 'Unknown',
       products: delivery.Invoice?.InvoiceItems?.map(item => item.productName) || []
     }));
 
     res.json(response);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: 'Greška prilikom dohvaćanja isporuka.' });
+    res.status(500).json({ message: 'Error loading delivery.' });
   }
 });
 

@@ -14,7 +14,7 @@ router.get('/contracts', async (req, res) => {
         res.json(contracts);
     } catch (err) {
         console.error(err);
-        res.status(500).send('Greška pri dohvaćanju ugovora');
+        res.status(500).send('Error loading contract');
     }
 });
 
@@ -118,7 +118,7 @@ router.post('/contracts', async (req, res) => {
 
         const supplier = await Supplier.findByPk(supplierId);
         if (!supplier) {
-            return res.status(400).json({ message: "Dobavljač nije pronađen." });
+            return res.status(400).json({ message: "Supplier not found." });
         }
 
         const contract = await Contract.create({
@@ -190,7 +190,7 @@ router.put('/contracts/:id', async (req, res) => {
     const userId = req.session?.user?.id;
 
     if (!userId) {
-        return res.status(401).json({ message: "Niste prijavljeni" });
+        return res.status(401).json({ message: "You are not logged in." });
     }
 
     const {
@@ -219,7 +219,7 @@ router.put('/contracts/:id', async (req, res) => {
 
         if (!contract) {
             await t.rollback();
-            return res.status(404).json({ message: "Ugovor nije pronađen" });
+            return res.status(404).json({ message: "Contract not found" });
         }
 
         // 1. Ažuriraj osnovne informacije o ugovoru
@@ -248,7 +248,7 @@ router.put('/contracts/:id', async (req, res) => {
         const delivery = contract.Deliveries?.[0];
         if (!delivery) {
             await t.rollback();
-            return res.status(400).json({ message: "Isporuka nije pronađena za ugovor." });
+            return res.status(400).json({ message: "Delivery for contract not found." });
         }
 
         await delivery.update({
@@ -260,7 +260,7 @@ router.put('/contracts/:id', async (req, res) => {
         const invoice = delivery.Invoice;
         if (!invoice) {
             await t.rollback();
-            return res.status(400).json({ message: "Faktura nije pronađena za isporuku." });
+            return res.status(400).json({ message: "Invoice for delivery not found." });
         }
 
         // Briši stare stavke
@@ -294,12 +294,12 @@ router.put('/contracts/:id', async (req, res) => {
         await invoice.update({ totalAmount }, { transaction: t });
 
         await t.commit();
-        return res.status(200).json({ message: "Ugovor uspješno ažuriran." });
+        return res.status(200).json({ message: "Contract successfully updated." });
 
     } catch (err) {
         await t.rollback();
         console.error(err);
-        return res.status(500).json({ message: "Greška prilikom ažuriranja ugovora." });
+        return res.status(500).json({ message: "Error updating contract." });
     }
 });
 

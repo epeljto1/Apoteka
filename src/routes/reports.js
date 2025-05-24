@@ -11,8 +11,8 @@ router.get('/reports', async (req, res) => {
         const reports = await Report.findAll();
         res.json({ reports });
     } catch (error) {
-        console.error('Greška pri dohvatu izvještaja:', error);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error loading reports:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
@@ -22,13 +22,13 @@ router.get('/reports/:id', async (req, res) => {
         const report = await Report.findByPk(id);
 
         if (!report) {
-            return res.status(404).json({ message: 'Izvještaj nije pronađen.' });
+            return res.status(404).json({ message: 'Report not found.' });
         }
 
         res.json({ report });
     } catch (error) {
-        console.error('Greška pri dohvatu izvještaja:', error);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error loading reports:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 
@@ -38,7 +38,7 @@ router.post('/reports/promet', async (req, res) => {
     const { startDate, endDate } = req.body;
 
     if (!startDate || !endDate) {
-        return res.status(400).json({ message: 'Oba datuma su obavezna.' });
+        return res.status(400).json({ message: 'Both dates are required.' });
     }
 
     try {
@@ -80,7 +80,7 @@ router.post('/reports/promet', async (req, res) => {
 
         // Kreiraj novi izvještaj u bazi
         const newReport = await db.Report.create({
-            name: 'Novi izvještaj',
+            name: 'New report',
             startDate: new Date(startDate),
             endDate: new Date(endDate),
             totalSold: Object.values(reportData).reduce((sum, product) => sum + product.totalSold, 0),
@@ -96,8 +96,8 @@ router.post('/reports/promet', async (req, res) => {
         res.json({ report: sortedReport });
 
     } catch (error) {
-        console.error('Greška pri generisanju izvještaja:', error);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error loading reports:', error);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 function normalizeStatus(status) {
@@ -137,8 +137,8 @@ router.post('/reports/contracts', async (req, res) => {
         res.json({ report });
 
     } catch (err) {
-        console.error('Greška:', err);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error:', err);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 router.post('/reports/promet/download-pdf', async (req, res) => {
@@ -185,14 +185,14 @@ router.post('/reports/promet/download-pdf', async (req, res) => {
 
         
         const doc = new PDFDocument({ margin: 50 });
-        res.setHeader('Content-Disposition', 'attachment; filename=izvjestaj.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=report.pdf');
         res.setHeader('Content-Type', 'application/pdf');
         doc.pipe(res);
         
         // Naslov i period
-        doc.fontSize(20).text('Izvještaj o prodaji', { align: 'center' });
+        doc.fontSize(20).text('Sales Report', { align: 'center' });
         doc.moveDown(1);
-        doc.fontSize(12).text(`Period:    ${startDate}    do    ${endDate}`, { align: 'center' });
+        doc.fontSize(12).text(`Period:    ${startDate}    to    ${endDate}`, { align: 'center' });
         doc.moveDown(1.5);
         
         // Zaglavlje tabele
@@ -207,11 +207,11 @@ router.post('/reports/promet/download-pdf', async (req, res) => {
 
         // Zaglavlja
         doc.font('Helvetica-Bold').fontSize(11);
-        doc.text('Naziv proizvoda', col1, y);
-        doc.text('Proizvodac', col2, y);
-        doc.text('Cijena (KM)', col3, y, { width: 60, align: 'right' });
-        doc.text('Kolicina', col4, y, { width: 50, align: 'right' });
-        doc.text('Ukupno (KM)', col5, y, { width: 60, align: 'right' });
+        doc.text('Name of medicine', col1, y);
+        doc.text('Manufacturer', col2, y);
+        doc.text('Price (KM)', col3, y, { width: 60, align: 'right' });
+        doc.text('Quantity', col4, y, { width: 50, align: 'right' });
+        doc.text('Total (KM)', col5, y, { width: 60, align: 'right' });
 
         y = doc.y;
         doc.moveTo(col1, y).lineTo(550, y).stroke();
@@ -242,24 +242,24 @@ router.post('/reports/promet/download-pdf', async (req, res) => {
         
         // Ukupne vrijednosti
         doc.font('Helvetica-Bold').fontSize(11);
-        doc.text(`Ukupno prodatih artikala: ${totalSold}`, col1);
-        doc.text(`Ukupan prihod: ${totalEarnings.toFixed(2)} KM`, col1);
+        doc.text(`Total items sold: ${totalSold}`, col1);
+        doc.text(`Total revenue: ${totalEarnings.toFixed(2)} KM`, col1);
         
         // Datum generisanja izvještaja
         doc.moveDown(2);
         const today = new Date();
         const formattedDate = `${today.getDate()}. ${today.getMonth() + 1}. ${today.getFullYear()}.`;
-        doc.text(`Datum generisanja izvještaja: ${formattedDate}`, { align: 'right' });
+        doc.text(`Report generation date: ${formattedDate}`, { align: 'right' });
         
         doc.moveDown(2);
-        doc.text('________________________', { align: 'right' });
-        doc.text('Potpis odgovorne osobe', { align: 'right' });
+        doc.text('____________________________________', { align: 'right' });
+        doc.text('Signature of the responsible person', { align: 'right' });
         
         doc.end();
         
     } catch (error) {
-        console.error('Greška pri generisanju PDF-a:', error);
-        res.status(500).json({ message: 'Greška na serveru pri generisanju PDF-a.' });
+        console.error('Error generating PDF:', error);
+        res.status(500).json({ message: 'Server error generating PDF.' });
     }
 });
 
@@ -303,12 +303,12 @@ router.post('/reports/contracts/download-pdf', async (req, res) => {
         
         // Kreiranje PDF dokumenta
         const doc = new PDFDocument({ margin: 50 });
-        res.setHeader('Content-Disposition', 'attachment; filename=ugovori-izvjestaj.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=contract-report.pdf');
         res.setHeader('Content-Type', 'application/pdf');
         doc.pipe(res);
 
         // Naslov
-        doc.fontSize(20).text('Izvještaj o ugovorima', { align: 'center' });
+        doc.fontSize(20).text('Contract Report', { align: 'center' });
         doc.moveDown(1);
         doc.fontSize(12).text(`Period: ${startDate || '---'} do ${endDate || '---'}`, { align: 'center' });
         doc.moveDown(2);
@@ -334,16 +334,16 @@ router.post('/reports/contracts/download-pdf', async (req, res) => {
         // Datum i potpis
         const today = new Date();
         const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}.`;
-        doc.text(`Datum generisanja: ${formattedDate}`, { align: 'right' });
+        doc.text(`Report generation date: ${formattedDate}`, { align: 'right' });
         doc.moveDown(2);
-        doc.text('________________________', { align: 'right' });
-        doc.text('Potpis odgovorne osobe', { align: 'right' });
+        doc.text('________________________________', { align: 'right' });
+        doc.text('Signature of the responsible person', { align: 'right' });
 
         doc.end();
 
     } catch (err) {
-        console.error('Greška pri generisanju PDF izvještaja o ugovorima:', err);
-        res.status(500).json({ message: 'Greška pri generisanju PDF-a za ugovore.' });
+        console.error('Error generating PDF contract report:', err);
+        res.status(500).json({ message: 'Error generating PDF contract report.' });
     }
 });
 
@@ -389,8 +389,8 @@ router.post('/reports/deliveries', async (req, res) => {
         res.json({ report });
 
     } catch (err) {
-        console.error('Greška:', err);
-        res.status(500).json({ message: 'Greška na serveru.' });
+        console.error('Error:', err);
+        res.status(500).json({ message: 'Server error.' });
     }
 });
 router.post('/reports/deliveries/download-pdf', async (req, res) => {
@@ -440,12 +440,12 @@ router.post('/reports/deliveries/download-pdf', async (req, res) => {
         
         // Kreiranje PDF dokumenta
         const doc = new PDFDocument({ margin: 50 });
-        res.setHeader('Content-Disposition', 'attachment; filename=ugovori-izvjestaj.pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename=contract-report.pdf');
         res.setHeader('Content-Type', 'application/pdf');
         doc.pipe(res);
 
         // Naslov
-        doc.fontSize(20).text('Izvještaj o isporukama', { align: 'center' });
+        doc.fontSize(20).text('Delivery Report', { align: 'center' });
         doc.moveDown(1);
         doc.fontSize(12).text(`Period: ${startDate || '---'} do ${endDate || '---'}`, { align: 'center' });
         doc.moveDown(2);
@@ -471,16 +471,16 @@ router.post('/reports/deliveries/download-pdf', async (req, res) => {
         // Datum i potpis
         const today = new Date();
         const formattedDate = `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}.`;
-        doc.text(`Datum generisanja: ${formattedDate}`, { align: 'right' });
+        doc.text(`Report generation date: ${formattedDate}`, { align: 'right' });
         doc.moveDown(2);
-        doc.text('________________________', { align: 'right' });
-        doc.text('Potpis odgovorne osobe', { align: 'right' });
+        doc.text('_____________________________', { align: 'right' });
+        doc.text('Signature of the responsible person', { align: 'right' });
 
         doc.end();
 
     } catch (err) {
-        console.error('Greška pri generisanju PDF izvještaja o izvjestajima:', err);
-        res.status(500).json({ message: 'Greška pri generisanju PDF-a za izvjestajima.' });
+        console.error('Error generating reporting report:', err);
+        res.status(500).json({ message: 'Error generating reporting report.' });
     }
 });
 module.exports = router;
