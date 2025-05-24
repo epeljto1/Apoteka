@@ -41,8 +41,8 @@ Each component is connected via well-defined interfaces and is aligned with syst
 
 ## Authors
 
-> Hamza Bosno
-> Hasan Brčaninović
-> Fatima Muharemović
-> Emina Peljto
-> Tajra Selimović
+- Hamza Bosno
+- Hasan Brčaninović
+- Fatima Muharemović
+- Emina Peljto
+- Tajra Selimović
