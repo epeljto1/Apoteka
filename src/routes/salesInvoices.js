@@ -3,7 +3,6 @@ const { SalesInvoice, SalesInvoiceItems, Product } = require('../models');
 const router = express.Router();
 
 
-// ruta koja vraca prodajne fakture. NESTO NIJE UREDU TREBA TROUBLESHOOT KAD ZATREBA
 router.get('/salesInvoices', async (req, res) => {
     try {
         const invoices = await SalesInvoice.findAll({
