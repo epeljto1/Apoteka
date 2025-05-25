@@ -256,42 +256,98 @@ router.put('/contracts/:id', async (req, res) => {
             status: deliveryStatus
         }, { transaction: t });
 
-        // 4. Ažuriraj Invoice i InvoiceItems
-        const invoice = delivery.Invoice;
-        if (!invoice) {
-            await t.rollback();
-            return res.status(400).json({ message: "Invoice for delivery not found." });
-        }
+// 4. Ažuriraj Invoice i InvoiceItems
+const invoice = delivery.Invoice;
+if (!invoice) {
+    await t.rollback();
+    return res.status(400).json({ message: "Invoice for delivery not found." });
+}
 
-        // Briši stare stavke
-        await InvoiceItems.destroy({ where: { invoiceId: invoice.id }, transaction: t });
+// Učitaj postojeće stavke fakture
+const existingItems = await InvoiceItems.findAll({
+    where: { invoiceId: invoice.id },
+    transaction: t
+});
 
-        // Dodaj nove stavke i izračunaj totalAmount
-        let totalAmount = 0;
 
-        for (const item of items) {
-            await InvoiceItems.create({
-                productName: item.productName,
+
+// Kreiraj mapu postojećih stavki po imenu proizvoda radi bržeg pristupa
+const existingMap = new Map();
+existingItems.forEach(item => {
+    existingMap.set(item.productName, item);
+});
+
+// Mapiraj nove stavke po imenu
+const incomingMap = new Map();
+items.forEach(item => {
+    incomingMap.set(item.productName, item);
+});
+
+// Total amount počinje od nule, jer ćemo ga računati iz svežih podataka
+let totalAmount = 0;
+
+existingItems.forEach(item => {
+    totalAmount += item.quantity * item.cost;
+});
+
+// Prođi kroz nove stavke: dodaj nove ili ažuriraj postojeće
+for (const item of items) {
+    const existingItem = existingMap.get(item.productName);
+
+    if (existingItem) {
+        // Ažuriraj ako se promenio quantity ili cost
+        if (existingItem.quantity !== item.quantity || existingItem.cost !== item.cost) {
+            await existingItem.update({
                 quantity: item.quantity,
-                cost: item.cost,
-                invoiceId: invoice.id
-            }, { transaction: t });
-
-            totalAmount += item.quantity * item.cost;
-
-            // (opciono) napravi novi proizvod - ili ažuriraj postojeći po imenu
-            await Product.create({
-                name: item.productName,
-                description: "",
-                ingredients: "",
-                manufacturer: contract.supplierId,
-                expirationDate: new Date(),
-                price: item.cost,
-                quantity: item.quantity
+                cost: item.cost
             }, { transaction: t });
         }
+        totalAmount += item.quantity * item.cost;
+    } else {
+        // Dodaj novu stavku
+        await InvoiceItems.create({
+            productName: item.productName,
+            quantity: item.quantity,
+            cost: item.cost,
+            invoiceId: invoice.id
+        }, { transaction: t });
 
-        await invoice.update({ totalAmount }, { transaction: t });
+
+     // Provera da li proizvod već postoji
+let existingProduct = await Product.findOne({
+    where: { name: item.productName },
+    transaction: t
+});
+
+if (existingProduct) {
+    // Ako postoji, povećaj količinu
+    await existingProduct.update({
+        quantity: existingProduct.quantity + item.quantity
+    }, { transaction: t });
+} else {
+    // Ako ne postoji, kreiraj novi
+    await Product.create({
+        name: item.productName,
+        description: "",
+        ingredients: "",
+        manufacturer: contract.supplierId,
+        expirationDate: new Date(),
+        price: item.cost,
+        quantity: item.quantity
+    }, { transaction: t });
+}
+
+    }
+}
+
+items.forEach(item => {
+    totalAmount += item.quantity * item.cost;
+});
+
+
+// Ažuriraj iznos
+await invoice.update({ totalAmount }, { transaction: t });
+
 
         await t.commit();
         return res.status(200).json({ message: "Contract successfully updated." });

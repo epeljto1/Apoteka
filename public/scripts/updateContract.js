@@ -35,15 +35,12 @@ document.addEventListener("DOMContentLoaded", () => {
         const itemDiv = document.createElement("div");
         itemDiv.className = "item";
         itemDiv.innerHTML = `
-            <label>Product Name:
-            </label>
-                <input type="text" name="productName" value="${item.productName || ''}" required>
-            <label>Quantity:
-            </label>
-                <input type="number" name="quantity" value="${item.quantity || 1}" min="1" required>
-            <label>Cost:
-            </label>
-                <input type="number" name="cost" value="${item.cost || 0}" min="0" step="0.01" required>
+            <label>Product Name:</label>
+            <input type="text" name="productName" value="${item.productName || ''}" required>
+            <label>Quantity:</label>
+            <input type="number" name="quantity" value="${item.quantity || 1}" min="1" required>
+            <label>Cost:</label>
+            <input type="number" name="cost" value="${item.cost || 0}" min="0" step="0.01" required>
             <button type="button" class="removeItemBtn">Remove</button><br><br>
         `;
         itemDiv.querySelector(".removeItemBtn").addEventListener("click", () => {
@@ -60,8 +57,8 @@ document.addEventListener("DOMContentLoaded", () => {
             div.className = "invoice-item";
             div.innerHTML = `
                 <strong>Invoice #${invoice.id}</strong><br>
-                <strong>Total:</strong> ${invoice.totalAmount}<br>
-                <strong>Date:</strong> ${invoice.date?.split("T")[0]}<br>
+                <strong>Total:</strong> ${invoice.totalAmount.toFixed(2)}<br>
+                <strong>Date:</strong> ${invoice.date?.split("T")[0] || "N/A"}<br>
                 <strong>Items:</strong><br>
                 <ul>
                     ${invoice.items.map(item => `
@@ -87,6 +84,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 contractForm.purpose.value = c.purpose || "";
 
                 loadSuppliers(c.supplierId);
+
+                itemsContainer.innerHTML = "";
                 (c.items || []).forEach(item => addItem(item));
 
                 if (c.Deliveries && c.Deliveries.length > 0) {
@@ -122,12 +121,17 @@ document.addEventListener("DOMContentLoaded", () => {
         const formData = new FormData(contractForm);
         const items = [];
 
-        document.querySelectorAll(".item").forEach(item => {
-            items.push({
-                productName: item.querySelector('[name="productName"]').value,
-                quantity: parseInt(item.querySelector('[name="quantity"]').value),
-                cost: parseFloat(item.querySelector('[name="cost"]').value)
-            });
+        document.querySelectorAll(".item").forEach(itemEl => {
+            const productName = itemEl.querySelector('[name="productName"]').value.trim();
+            const quantity = parseInt(itemEl.querySelector('[name="quantity"]').value);
+            const cost = parseFloat(itemEl.querySelector('[name="cost"]').value);
+
+            if (!productName || quantity <= 0 || cost < 0) {
+                alert("Please check all item fields. Quantity must be > 0 and cost ≥ 0.");
+                return;
+            }
+
+            items.push({ productName, quantity, cost });
         });
 
         const data = {
@@ -151,7 +155,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(res => {
             if (res.ok) {
                 alert("Contract updated successfully!");
-                window.location.href = "/contracts";
+                loadContract(); // 🔁 Osveži prikaz bez reloada stranice
             } else {
                 return res.text().then(text => { throw new Error(text); });
             }
